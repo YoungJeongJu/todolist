@@ -1,11 +1,6 @@
 # AI Coding 도구
 CLAUDE.local.md
 settings.local.json
-.claude/
-.codex/
-.gemini/
-.opencode/
-opencode.json
 
 # Logs
 logs
