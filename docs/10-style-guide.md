@@ -1,6 +1,6 @@
-# 스타일 가이드 — TodoList 웹 애플리케이션
+# 스타일 가이드 2 — TodoList 웹 애플리케이션
 
-> 버전: 1.0 | 작성일: 2026-05-28 | 참조: 8-wireframes.md, 2-PRD.md, Gmail 레퍼런스 UI
+> 버전: 1.0 | 작성일: 2026-05-28 | 참조: Google Calendar 레퍼런스 UI, 8-wireframes.md
 
 ---
 
@@ -8,21 +8,21 @@
 
 | 버전 | 날짜       | 변경 내용 |
 | ---- | ---------- | --------- |
-| 1.0  | 2026-05-28 | 최초 작성 — Gmail 레퍼런스 기반 디자인 시스템 정의 |
+| 1.0  | 2026-05-28 | 최초 작성 — Google Calendar 레퍼런스 기반 디자인 시스템 |
 
 ---
 
 ## 1. 디자인 철학
 
-Gmail의 시각 언어를 참조하여 **깨끗하고 집중을 방해하지 않는** UI를 지향한다.
+Google Calendar의 시각 언어를 참조하여 **날짜·기한 중심의 할 일 관리**에 최적화된 UI를 지향한다.
 
 | 원칙 | 설명 |
 |------|------|
-| **명확성** | 정보 계층이 분명하며 중요한 요소가 먼저 눈에 들어온다 |
-| **일관성** | 동일한 역할의 요소는 어디서나 같은 모양·색을 사용한다 |
-| **절제** | 불필요한 장식을 배제하고 여백으로 숨을 쉰다 |
-| **반응성** | 데스크탑(≥768px)과 모바일(<768px) 두 레이아웃을 모두 지원한다 |
-| **접근성** | WCAG AA 기준 대비 4.5:1 이상을 충족한다 |
+| **공간감** | 충분한 여백과 얇은 그리드 선으로 콘텐츠에 집중 |
+| **색을 통한 분류** | 카테고리·상태를 색으로 즉시 구분 (Calendar의 캘린더 색상 체계 참조) |
+| **인라인 액션** | 별도 페이지 이동 없이 모달/팝업으로 할 일을 등록·수정 |
+| **경계 최소화** | 입력 필드는 하단 선만 표시, 배경으로 영역 구분 |
+| **재료(Material) 감성** | Google Material Design 3의 아이콘 행·버튼·대화상자 패턴 적용 |
 
 ---
 
@@ -30,126 +30,130 @@ Gmail의 시각 언어를 참조하여 **깨끗하고 집중을 방해하지 않
 
 ### 2-1. 기본 팔레트
 
-Gmail의 컬러 시스템을 참조하여 Blue 계열을 Primary로 사용한다.
+Google Calendar의 실제 색상을 측정·추출한 값이다.
 
 ```css
 :root {
-  /* Primary — Google Blue 계열 */
+  /* Primary — Google Blue */
   --color-primary-50:  #e8f0fe;
-  --color-primary-100: #d3e3fd;
-  --color-primary-200: #a8c7fa;
+  --color-primary-100: #d2e3fc;
+  --color-primary-200: #aecbfa;
   --color-primary-500: #4285f4;
-  --color-primary-600: #1a73e8;   /* 메인 Primary */
+  --color-primary-600: #1a73e8;   /* Save 버튼, Today 마커, 링크 */
   --color-primary-700: #1557b0;
 
-  /* Neutral — 텍스트 및 배경 */
-  --color-neutral-0:   #ffffff;
-  --color-neutral-50:  #f8f9fa;   /* 페이지 배경 */
-  --color-neutral-100: #f1f3f4;   /* 사이드바 배경 */
-  --color-neutral-200: #e8eaed;   /* 구분선, 테두리 */
-  --color-neutral-400: #bdc1c6;   /* Placeholder */
-  --color-neutral-600: #80868b;   /* 보조 텍스트 */
-  --color-neutral-700: #5f6368;   /* 중간 텍스트 */
-  --color-neutral-900: #202124;   /* 본문 텍스트 */
+  /* Surface */
+  --color-surface:        #ffffff;   /* 메인 배경, 모달 배경 */
+  --color-surface-raised: #ffffff;   /* 카드, 팝업 */
+  --color-surface-dim:    #f6f8fc;   /* 사이드바, hover 배경 */
+
+  /* Neutral */
+  --color-outline:        #dadce0;   /* 그리드 선, 테두리, 구분선 */
+  --color-outline-focus:  #1a73e8;   /* 포커스 하단 선 */
+  --color-text-primary:   #202124;   /* 날짜 숫자, 본문 */
+  --color-text-secondary: #70757a;   /* 요일 헤더, 보조 텍스트 */
+  --color-text-disabled:  #bdc1c6;
 
   /* Semantic */
-  --color-success:     #1e8e3e;
-  --color-success-bg:  #e6f4ea;
-  --color-warning:     #f29900;
-  --color-warning-bg:  #fef7e0;
-  --color-error:       #d93025;
-  --color-error-bg:    #fce8e6;
-  --color-overdue:     #d93025;   /* 기한 초과 강조 */
-  --color-overdue-bg:  #fce8e6;
+  --color-today:          #1a73e8;   /* 오늘 날짜 원형 마커 */
+  --color-today-text:     #ffffff;
+  --color-error:          #d93025;
+  --color-error-bg:       #fce8e6;
 }
 ```
 
-### 2-2. 다크 모드 팔레트
+### 2-2. 카테고리 색상 팔레트
 
-`themeMode === 'DARK'`일 때 `<html>` 또는 최상위 컨테이너에 `data-theme="dark"` 속성을 적용한다.
+Google Calendar의 이벤트 색상 체계를 참조하여 카테고리별 색상을 정의한다. 체크박스·이벤트 칩·사이드바 도트에 동일하게 적용한다.
+
+```css
+:root {
+  /* 카테고리 대표색 — 배경(칩) / 텍스트 쌍 */
+  --cat-blue-bg:    #e8f0fe;  --cat-blue-text:    #1a73e8;  --cat-blue-dot:    #1a73e8;
+  --cat-cyan-bg:    #e0f7fa;  --cat-cyan-text:    #0097a7;  --cat-cyan-dot:    #0097a7;
+  --cat-green-bg:   #e6f4ea;  --cat-green-text:   #1e8e3e;  --cat-green-dot:   #33b679;
+  --cat-sage-bg:    #f0f4e8;  --cat-sage-text:    #5b8043;  --cat-sage-dot:    #7bd148;
+  --cat-yellow-bg:  #fef7e0;  --cat-yellow-text:  #b06000;  --cat-yellow-dot:  #f6c026;
+  --cat-orange-bg:  #fce8e6;  --cat-orange-text:  #b31412;  --cat-orange-dot:  #ff7043;
+  --cat-pink-bg:    #fce4ec;  --cat-pink-text:    #c62828;  --cat-pink-dot:    #e67c73;
+  --cat-purple-bg:  #f3e8fd;  --cat-purple-text:  #6a0dad;  --cat-purple-dot:  #9e69af;
+  --cat-graphite-bg:#f1f3f4;  --cat-graphite-text:#3c4043;  --cat-graphite-dot:#616161;
+}
+```
+
+### 2-3. 다크 모드
 
 ```css
 [data-theme="dark"] {
-  --color-primary-50:  #1a2744;
-  --color-primary-100: #1e3a5f;
-  --color-primary-200: #2d5a9e;
-  --color-primary-500: #4285f4;
-  --color-primary-600: #4285f4;   /* 다크에서 Primary 동일 */
-  --color-primary-700: #669df6;
+  --color-primary-600: #4285f4;
 
-  --color-neutral-0:   #1f1f1f;   /* 기본 배경 */
-  --color-neutral-50:  #2d2d2d;   /* 컴포넌트 배경 */
-  --color-neutral-100: #3c3c3c;   /* 사이드바 배경 */
-  --color-neutral-200: #444746;   /* 구분선 */
-  --color-neutral-400: #5f6368;
-  --color-neutral-600: #9aa0a6;
-  --color-neutral-700: #bdc1c6;
-  --color-neutral-900: #e8eaed;   /* 다크의 본문 텍스트 */
+  --color-surface:        #1f1f1f;
+  --color-surface-raised: #292929;
+  --color-surface-dim:    #2d2d2d;
 
-  --color-success:     #81c995;
-  --color-success-bg:  #0d3b1e;
-  --color-error:       #f28b82;
-  --color-error-bg:    #3c1a18;
-  --color-overdue:     #f28b82;
-  --color-overdue-bg:  #3c1a18;
+  --color-outline:        #3c4043;
+  --color-outline-focus:  #4285f4;
+  --color-text-primary:   #e8eaed;
+  --color-text-secondary: #9aa0a6;
+  --color-text-disabled:  #5f6368;
+
+  --color-today:          #4285f4;
+  --color-today-text:     #ffffff;
+  --color-error:          #f28b82;
+  --color-error-bg:       #3c1a18;
+
+  /* 카테고리 칩 — 다크에서 배경 어둡게 */
+  --cat-blue-bg:    #1a2744;
+  --cat-green-bg:   #0d2e1a;
+  --cat-yellow-bg:  #2e2200;
+  --cat-orange-bg:  #3c1200;
+  --cat-pink-bg:    #3c0a1a;
+  --cat-purple-bg:  #220a3c;
+  --cat-graphite-bg:#2d2d2d;
 }
 ```
-
-### 2-3. 상태별 색상 사용 규칙
-
-| 상태 | 텍스트 색 | 배지/칩 배경 | 용도 |
-|------|-----------|-------------|------|
-| NOT_STARTED | `--color-neutral-700` | `--color-neutral-100` | 미시작 |
-| IN_PROGRESS | `--color-primary-600` | `--color-primary-50` | 진행 중 |
-| DONE | `--color-success` | `--color-success-bg` | 완료 |
-| OVERDUE | `--color-overdue` | `--color-overdue-bg` | 기한 초과 |
 
 ---
 
 ## 3. 타이포그래피
 
-Google Sans와 유사한 한국어 지원 시스템 폰트 스택을 사용한다.
+Google Calendar의 실제 폰트 사용을 참조한다.
 
 ```css
 :root {
   --font-family-base: 'Google Sans', 'Noto Sans KR', -apple-system,
                       BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-family-mono: 'Roboto Mono', 'Courier New', monospace;
+
+  /* 크기 스케일 */
+  --text-xs:   11px;   /* 이벤트 칩, 타임스탬프 */
+  --text-sm:   12px;   /* 미니 캘린더 날짜, 보조 레이블 */
+  --text-base: 14px;   /* 본문, 입력, 폼 아이템 */
+  --text-md:   16px;   /* 섹션 헤더, 모달 아이템 레이블 */
+  --text-lg:   22px;   /* 모달 제목 입력 */
+  --text-xl:   26px;   /* 날짜 숫자 (헤더 월/년) */
+
+  /* 굵기 */
+  --font-normal:   400;
+  --font-medium:   500;
+  --font-semibold: 600;
 }
 ```
 
-### 3-1. 타입 스케일
+### 3-1. 날짜 숫자 표시 규칙
 
-| 토큰 | 크기 | 굵기 | Line-height | 용도 |
-|------|------|------|-------------|------|
-| `--text-xs` | 11px | 400 | 1.4 | 타임스탬프, 보조 레이블 |
-| `--text-sm` | 13px | 400 | 1.5 | 목록 미리보기, 보조 텍스트 |
-| `--text-base` | 14px | 400 | 1.6 | 본문, 입력 필드 |
-| `--text-base-bold` | 14px | 600 | 1.6 | 읽지 않은 항목, 강조 본문 |
-| `--text-md` | 16px | 400 | 1.5 | 섹션 레이블, 카드 제목 |
-| `--text-lg` | 20px | 400 | 1.4 | 페이지 헤더, 모달 제목 |
-| `--text-xl` | 24px | 400 | 1.3 | 앱 타이틀 |
+Google Calendar의 날짜 숫자 표시 방식을 참조한다.
 
-```css
-:root {
-  --text-xs:        11px;
-  --text-sm:        13px;
-  --text-base:      14px;
-  --text-md:        16px;
-  --text-lg:        20px;
-  --text-xl:        24px;
-
-  --font-normal:    400;
-  --font-medium:    500;
-  --font-semibold:  600;
-}
-```
+| 상태 | 크기 | 굵기 | 색상 | 배경 |
+|------|------|------|------|------|
+| 일반 날짜 | 14px | 400 | `--color-text-primary` | 없음 |
+| 오늘 날짜 | 14px | 500 | `--color-today-text` | `--color-today` 원형 |
+| 기한 임박 (3일 이내) | 14px | 500 | `--color-primary-600` | 없음 |
+| 기한 초과 | 14px | 500 | `--color-error` | 없음 |
+| 비활성(이전 달) | 14px | 400 | `--color-text-disabled` | 없음 |
 
 ---
 
-## 4. 간격 시스템 (Spacing)
-
-8px 기반 배수 시스템을 사용한다.
+## 4. 간격 시스템
 
 ```css
 :root {
@@ -162,33 +166,42 @@ Google Sans와 유사한 한국어 지원 시스템 폰트 스택을 사용한�
   --space-8:  32px;
   --space-10: 40px;
   --space-12: 48px;
-  --space-16: 64px;
 }
 ```
 
 ---
 
-## 5. 모서리 반경 (Border Radius)
+## 5. 모서리 반경
+
+Google Calendar의 실제 값을 측정한 결과다.
 
 ```css
 :root {
-  --radius-sm:   4px;    /* 입력 필드, 소형 칩 */
-  --radius-md:   8px;    /* 카드, 모달 */
-  --radius-lg:   16px;   /* 드롭다운, 토스트 */
-  --radius-full: 9999px; /* 버튼 (Compose 스타일), 배지 */
+  --radius-xs:   4px;    /* 이벤트 칩 (종일 이벤트) */
+  --radius-sm:   8px;    /* 입력 필드 컨테이너 (포커스 시) */
+  --radius-md:   12px;   /* 모달, 팝오버 */
+  --radius-lg:   16px;   /* Create 버튼, 드롭다운 패널 */
+  --radius-full: 9999px; /* Save 버튼, 오늘 날짜 원형, 탭 칩 */
 }
 ```
 
 ---
 
-## 6. 그림자 (Elevation)
+## 6. 그림자
 
 ```css
 :root {
-  --shadow-sm:  0 1px 2px rgba(60,64,67,.3),  0 1px 3px 1px rgba(60,64,67,.15);
-  --shadow-md:  0 1px 4px rgba(60,64,67,.3),  0 2px 6px 2px rgba(60,64,67,.15);
-  --shadow-lg:  0 4px 8px 3px rgba(60,64,67,.15), 0 1px 3px rgba(60,64,67,.3);
-  --shadow-xl:  0 6px 10px 4px rgba(60,64,67,.15), 0 2px 3px rgba(60,64,67,.3);
+  /* 팝오버 (이벤트 생성 모달) */
+  --shadow-popup:  0 8px 10px 1px rgba(0,0,0,.14),
+                   0 3px 14px 2px rgba(0,0,0,.12),
+                   0 5px 5px -3px rgba(0,0,0,.2);
+  /* 드롭다운 */
+  --shadow-menu:   0 2px 4px -1px rgba(0,0,0,.2),
+                   0 4px 5px  0  rgba(0,0,0,.14),
+                   0 1px 10px 0  rgba(0,0,0,.12);
+  /* 카드 hover */
+  --shadow-card:   0 1px 3px rgba(60,64,67,.3),
+                   0 4px 8px 3px rgba(60,64,67,.15);
 }
 ```
 
@@ -198,29 +211,31 @@ Google Sans와 유사한 한국어 지원 시스템 폰트 스택을 사용한�
 
 ### 7-1. 전체 구조
 
+Google Calendar의 3영역 레이아웃을 참조한다.
+
 ```
 +--------------------------------------------------+
-| Header (56px 고정)                               |
-+------------------+-------------------------------+
-| Sidebar (256px)  | Main Content (fluid)          |
-|                  |                               |
-|                  |                               |
-+------------------+-------------------------------+
+| Header (60px — 로고·내비·뷰 전환·아이콘)         |
++-------------------+------------------------------+
+| Sidebar (165px)   | Main Content (fluid)         |
+| - Create 버튼     | - 필터 탭                    |
+| - 미니 캘린더     | - 할 일 목록                 |
+| - 카테고리 목록   |                              |
++-------------------+------------------------------+
 ```
 
 ```css
-/* 데스크탑 (≥768px) */
 .app-layout {
   display: grid;
-  grid-template-rows: 56px 1fr;
-  grid-template-columns: 256px 1fr;
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: 165px 1fr;
   grid-template-areas:
-    "header header"
+    "header  header"
     "sidebar main";
   height: 100vh;
+  background: var(--color-surface);
 }
 
-/* 모바일 (<768px) */
 @media (max-width: 767px) {
   .app-layout {
     grid-template-columns: 1fr;
@@ -231,189 +246,729 @@ Google Sans와 유사한 한국어 지원 시스템 폰트 스택을 사용한�
 }
 ```
 
-### 7-2. Header (56px)
+### 7-2. Header (60px)
 
-- 배경: `--color-neutral-0`
-- 하단 테두리: `1px solid --color-neutral-200`
-- 좌측: 앱 로고/타이틀
-- 우측: 프로필 링크, 로그아웃 버튼
+- 배경: `--color-surface`
+- 하단 테두리: `1px solid --color-outline`
+- 좌측: 햄버거 메뉴 아이콘 + 앱 로고
+- 우측: 검색, 설정, 프로필 아이콘
 
-### 7-3. Sidebar (256px, 데스크탑)
+### 7-3. Sidebar (165px)
 
-- 배경: `--color-neutral-100`
-- 내부 여백: `--space-2` (8px) 좌우
-- 모바일: 상단 드롭다운으로 전환 (카테고리 선택)
-
-### 7-4. 콘텐츠 영역
-
-- 최대 너비: 제한 없음 (사이드바 제외 전체)
-- 내부 여백: `--space-6` (24px) 좌우, `--space-4` (16px) 상하
-
-### 7-5. 반응형 브레이크포인트
-
-| 브레이크포인트 | 범위 | 변경 사항 |
-|---------------|------|-----------|
-| mobile | < 768px | 사이드바 숨김 → 상단 드롭다운, 모달 → 풀스크린 |
-| desktop | ≥ 768px | 사이드바 고정 256px |
+- 배경: `--color-surface`
+- 상단: `+ 할 일 추가` Create 버튼
+- 중간: 카테고리 컬러 리스트
+- 모바일: 드로어(서랍) 방식으로 전환
 
 ---
 
 ## 8. 컴포넌트
 
-### 8-1. 버튼
+### 8-1. Create 버튼 (할 일 추가 진입점)
 
-#### Primary Button (메인 액션)
-
-Gmail의 Compose 버튼 스타일을 참조한다.
+Google Calendar의 "+ Create" 버튼을 참조한다.
 
 ```css
-.btn-primary {
+.btn-create {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 0 var(--space-6);
-  height: 36px;
-  background: var(--color-primary-600);
-  color: #ffffff;
+  padding: 0 var(--space-4) 0 var(--space-3);
+  height: 48px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
   border: none;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-lg);
   font-size: var(--text-base);
   font-weight: var(--font-medium);
+  box-shadow: var(--shadow-card);
   cursor: pointer;
-  box-shadow: var(--shadow-sm);
   transition: background 150ms, box-shadow 150ms;
 }
 
-.btn-primary:hover {
-  background: var(--color-primary-700);
-  box-shadow: var(--shadow-md);
+.btn-create:hover {
+  background: var(--color-surface-dim);
+  box-shadow: var(--shadow-popup);
 }
 
-.btn-primary:disabled {
-  background: var(--color-neutral-200);
-  color: var(--color-neutral-400);
-  box-shadow: none;
-  cursor: not-allowed;
+/* "+" 아이콘 */
+.btn-create__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-600);
 }
 ```
 
-#### Secondary Button (보조 액션)
+### 8-2. Today 버튼 (네비게이션)
+
+Google Calendar 헤더의 "Today" 버튼 스타일.
 
 ```css
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 0 var(--space-4);
+.btn-today {
   height: 36px;
-  background: transparent;
-  color: var(--color-primary-600);
-  border: 1px solid var(--color-neutral-200);
+  padding: 0 var(--space-4);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-full);
   font-size: var(--text-base);
   font-weight: var(--font-medium);
-  cursor: pointer;
-  transition: background 150ms, border-color 150ms;
-}
-
-.btn-secondary:hover {
-  background: var(--color-primary-50);
-  border-color: var(--color-primary-200);
-}
-```
-
-#### Danger Button (탈퇴, 삭제 확인)
-
-```css
-.btn-danger {
-  background: var(--color-error);
-  color: #ffffff;
-  border: none;
-  border-radius: var(--radius-full);
-  /* 나머지 속성은 btn-primary 동일 */
-}
-
-.btn-danger:hover {
-  background: #b5281e;
-}
-```
-
-#### Ghost / Icon Button (아이콘 전용 액션)
-
-```css
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-full);
-  color: var(--color-neutral-700);
   cursor: pointer;
   transition: background 150ms;
 }
 
-.btn-ghost:hover {
-  background: var(--color-neutral-100);
+.btn-today:hover {
+  background: var(--color-surface-dim);
 }
 ```
 
-#### FAB (Floating Action Button — 할 일 추가)
+### 8-3. Save 버튼 (모달 내 주요 액션)
+
+Google Calendar 이벤트 생성 팝업의 "Save" 버튼.
 
 ```css
-.btn-fab {
-  position: fixed;
-  right: var(--space-6);
-  bottom: var(--space-6);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
+.btn-save {
+  height: 36px;
   padding: 0 var(--space-6);
-  height: 56px;
   background: var(--color-primary-600);
   color: #ffffff;
   border: none;
   border-radius: var(--radius-full);
-  font-size: var(--text-md);
+  font-size: var(--text-base);
   font-weight: var(--font-medium);
   cursor: pointer;
-  box-shadow: var(--shadow-lg);
   transition: background 150ms, box-shadow 150ms;
+}
+
+.btn-save:hover {
+  background: var(--color-primary-700);
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+
+.btn-save:disabled {
+  background: var(--color-outline);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+```
+
+### 8-4. More Options 버튼 (텍스트 버튼)
+
+```css
+.btn-text {
+  height: 36px;
+  padding: 0 var(--space-3);
+  background: transparent;
+  color: var(--color-primary-600);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.btn-text:hover {
+  background: var(--color-primary-50);
+}
+```
+
+### 8-5. FAB (모바일 할 일 추가)
+
+```css
+.btn-fab {
+  position: fixed;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-600);
+  color: #ffffff;
+  border: none;
+  box-shadow: var(--shadow-popup);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 100;
+  transition: background 150ms, box-shadow 150ms;
 }
 
 .btn-fab:hover {
-  box-shadow: var(--shadow-xl);
+  background: var(--color-primary-700);
 }
 ```
 
 ---
 
-### 8-2. 입력 필드 (Input)
+### 8-6. 모달 (이벤트 생성 팝업)
+
+Google Calendar의 이벤트 생성 팝업을 TodoList 할 일 등록 모달에 적용한다.
 
 ```css
+/* 팝업 컨테이너 */
+.popup {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-popup);
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-4) 0 var(--space-3);
+  overflow: hidden;
+}
+
+/* 팝업 헤더 (드래그 핸들 + 닫기) */
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-3) var(--space-3);
+}
+
+.popup-drag-handle {
+  color: var(--color-text-secondary);
+}
+
+.popup-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.popup-close:hover {
+  background: var(--color-surface-dim);
+}
+```
+
+#### 제목 입력 (하단 선만 표시)
+
+Google Calendar의 "Add title" 스타일 — 박스가 없고 하단 선만 있는 입력 필드.
+
+```css
+.input-title {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid var(--color-outline);
+  background: transparent;
+  font-size: var(--text-lg);      /* 22px */
+  font-weight: var(--font-normal);
+  color: var(--color-text-primary);
+  padding: var(--space-1) var(--space-4);
+  margin-bottom: var(--space-3);
+  outline: none;
+  transition: border-color 150ms;
+}
+
+.input-title::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.input-title:focus {
+  border-bottom-color: var(--color-primary-600);
+}
+```
+
+#### 탭 바 (Event | Task | Appointment)
+
+```css
+.popup-tabs {
+  display: flex;
+  gap: var(--space-1);
+  padding: 0 var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.popup-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 32px;
+  padding: 0 var(--space-3);
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background 150ms, color 150ms;
+}
+
+.popup-tab:hover {
+  background: var(--color-surface-dim);
+  color: var(--color-text-primary);
+}
+
+.popup-tab--active {
+  background: var(--color-primary-50);
+  color: var(--color-primary-600);
+  font-weight: var(--font-medium);
+}
+
+/* "New" 배지 */
+.popup-tab__badge {
+  font-size: var(--text-xs);
+  padding: 1px var(--space-1);
+  background: var(--color-primary-600);
+  color: #ffffff;
+  border-radius: var(--radius-full);
+}
+```
+
+#### 아이콘 행 폼 아이템
+
+Google Calendar의 "Add guests", "Add location" 등 아이콘 + 텍스트 행 패턴.
+
+```css
+.form-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  min-height: 48px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.form-row:hover {
+  background: var(--color-surface-dim);
+}
+
+.form-row__icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.form-row__content {
+  flex: 1;
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+.form-row__label {
+  color: var(--color-text-secondary);
+}
+
+.form-row__sublabel {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+/* 날짜/시간 행 */
+.form-row--datetime .form-row__content {
+  font-weight: var(--font-medium);
+}
+
+/* 구분선 */
+.form-row-divider {
+  height: 1px;
+  background: var(--color-outline);
+  margin: var(--space-1) var(--space-4);
+}
+```
+
+#### 팝업 액션 영역
+
+```css
+.popup-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4) 0;
+}
+```
+
+---
+
+### 8-7. 필터 탭 (할 일 상태 필터)
+
+Google Calendar의 Event | Task | Appointment 탭을 TodoList 상태 필터에 적용한다.
+
+```css
+.filter-chips {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 150ms, border-color 150ms;
+}
+
+.filter-chip:hover {
+  background: var(--color-surface-dim);
+}
+
+.filter-chip--active {
+  background: var(--color-primary-50);
+  border-color: var(--color-primary-200);
+  color: var(--color-primary-600);
+  font-weight: var(--font-medium);
+}
+
+/* 상태별 칩 색상 */
+.filter-chip--in-progress.filter-chip--active {
+  background: var(--cat-blue-bg);
+  border-color: var(--cat-blue-dot);
+  color: var(--cat-blue-text);
+}
+
+.filter-chip--done.filter-chip--active {
+  background: var(--cat-green-bg);
+  border-color: var(--cat-green-dot);
+  color: var(--cat-green-text);
+}
+
+.filter-chip--overdue.filter-chip--active {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+```
+
+---
+
+### 8-8. 할 일 카드 (Event Chip 스타일)
+
+Google Calendar의 이벤트 칩(종일 이벤트)을 TodoList 목록 아이템에 적용한다.
+
+```css
+.todo-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border-left: 4px solid var(--cat-blue-dot);   /* 카테고리 색상 */
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  margin-bottom: var(--space-1);
+  cursor: pointer;
+  transition: background 150ms, box-shadow 150ms;
+}
+
+.todo-card:hover {
+  background: var(--color-surface-dim);
+  box-shadow: var(--shadow-card);
+  z-index: 1;
+  position: relative;
+}
+
+/* 카테고리별 좌측 테두리 색 */
+.todo-card[data-category-color="blue"]    { border-left-color: var(--cat-blue-dot);    }
+.todo-card[data-category-color="green"]   { border-left-color: var(--cat-green-dot);   }
+.todo-card[data-category-color="yellow"]  { border-left-color: var(--cat-yellow-dot);  }
+.todo-card[data-category-color="orange"]  { border-left-color: var(--cat-orange-dot);  }
+.todo-card[data-category-color="pink"]    { border-left-color: var(--cat-pink-dot);    }
+.todo-card[data-category-color="purple"]  { border-left-color: var(--cat-purple-dot);  }
+.todo-card[data-category-color="graphite"]{ border-left-color: var(--cat-graphite-dot);}
+
+.todo-card__title {
+  flex: 1;
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.todo-card__title--done {
+  text-decoration: line-through;
+  color: var(--color-text-secondary);
+}
+
+.todo-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.todo-card__date--overdue {
+  color: var(--color-error);
+  font-weight: var(--font-medium);
+}
+
+/* 완료 체크 원형 버튼 */
+.todo-card__check {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-outline);
+  border-radius: var(--radius-full);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: border-color 150ms, background 150ms;
+}
+
+.todo-card__check:hover {
+  border-color: var(--color-primary-600);
+}
+
+.todo-card__check--done {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+}
+```
+
+#### 소형 이벤트 칩 (사이드바·미니 캘린더용)
+
+```css
+.event-chip {
+  display: block;
+  padding: 1px var(--space-1);
+  border-radius: var(--radius-xs);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+/* 카테고리 색상 적용 */
+.event-chip--blue    { background: var(--cat-blue-bg);   color: var(--cat-blue-text);   }
+.event-chip--green   { background: var(--cat-green-bg);  color: var(--cat-green-text);  }
+.event-chip--yellow  { background: var(--cat-yellow-bg); color: var(--cat-yellow-text); }
+.event-chip--overdue { background: var(--color-error-bg); color: var(--color-error);    }
+```
+
+---
+
+### 8-9. 오늘 날짜 마커
+
+```css
+.today-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-today);
+  color: var(--color-today-text);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+```
+
+---
+
+### 8-10. 카테고리 컬러 선택기
+
+Google Calendar의 캘린더 색상 선택 UI를 카테고리 편집에 적용한다.
+
+```css
+.color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+
+.color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: transform 150ms, box-shadow 150ms;
+}
+
+.color-swatch:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 4px rgba(0,0,0,.3);
+}
+
+/* 선택된 색상 — 체크 아이콘 표시 */
+.color-swatch--selected::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-full);
+  background: url("data:image/svg+xml,...") center no-repeat; /* 흰색 체크 */
+}
+```
+
+---
+
+### 8-11. 카테고리 사이드바 체크리스트
+
+Google Calendar의 "My calendars" 체크리스트 스타일.
+
+```css
+.category-list {
+  padding: var(--space-2) 0;
+}
+
+.category-list__section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  margin: 0 var(--space-2);
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.category-item:hover {
+  background: var(--color-surface-dim);
+}
+
+/* 색상 체크박스 */
+.category-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-xs);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 체크박스 색상은 카테고리 색상 팔레트로 지정 */
+.category-checkbox--checked {
+  /* 체크 아이콘 흰색 */
+}
+
+.category-checkbox--unchecked {
+  border: 2px solid currentColor;
+  background: transparent;
+}
+
+.category-item__name {
+  flex: 1;
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+}
+
+.category-item__actions {
+  display: flex;
+  gap: var(--space-1);
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+.category-item:hover .category-item__actions {
+  opacity: 1;
+}
+```
+
+---
+
+### 8-12. 상태 드롭다운 (할 일 행 내)
+
+```css
+.status-select {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 28px;
+  padding: 0 var(--space-2);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.status-select--not-started {
+  background: var(--cat-graphite-bg);
+  color: var(--cat-graphite-text);
+}
+
+.status-select--in-progress {
+  background: var(--cat-blue-bg);
+  color: var(--cat-blue-text);
+}
+
+.status-select--done {
+  background: var(--cat-green-bg);
+  color: var(--cat-green-text);
+}
+
+.status-select--overdue {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+```
+
+---
+
+### 8-13. 입력 필드 (일반 — 카테고리 이름 등)
+
+```css
+/* 기본 입력: 라운드 박스 스타일 */
 .input {
   width: 100%;
   height: 40px;
   padding: 0 var(--space-3);
-  background: var(--color-neutral-0);
-  border: 1px solid var(--color-neutral-200);
+  background: var(--color-surface-dim);
+  border: 1px solid transparent;
   border-radius: var(--radius-sm);
   font-size: var(--text-base);
-  color: var(--color-neutral-900);
-  transition: border-color 150ms;
+  color: var(--color-text-primary);
   outline: none;
+  transition: border-color 150ms, background 150ms;
 }
 
-.input::placeholder {
-  color: var(--color-neutral-400);
+.input:hover {
+  background: var(--color-surface);
+  border-color: var(--color-outline);
 }
 
 .input:focus {
+  background: var(--color-surface);
   border-color: var(--color-primary-600);
-  box-shadow: 0 0 0 2px var(--color-primary-100);
+  box-shadow: 0 0 0 2px var(--color-primary-50);
 }
 
 .input--error {
@@ -423,345 +978,58 @@ Gmail의 Compose 버튼 스타일을 참조한다.
 .input--error:focus {
   box-shadow: 0 0 0 2px var(--color-error-bg);
 }
-```
 
-#### Textarea (설명 입력)
-
-```css
-.textarea {
-  /* input과 동일하되 height 제거 */
-  width: 100%;
-  min-height: 80px;
-  padding: var(--space-2) var(--space-3);
-  resize: vertical;
-  /* 나머지 속성은 .input 동일 */
-}
-```
-
----
-
-### 8-3. 레이블 & 인라인 에러
-
-```css
-.form-label {
-  display: block;
-  margin-bottom: var(--space-1);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--color-neutral-700);
-}
-
-.form-error {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
+/* 인라인 오류 */
+.input-error-msg {
   margin-top: var(--space-1);
   font-size: var(--text-sm);
   color: var(--color-error);
-}
-
-.form-hint {
-  margin-top: var(--space-1);
-  font-size: var(--text-sm);
-  color: var(--color-neutral-600);
-  text-align: right; /* 글자 수 카운터 */
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
 }
 ```
 
 ---
 
-### 8-4. 드롭다운 / Select
+### 8-14. 알림 / 토스트
 
 ```css
-.select {
-  /* .input 속성 상속 */
-  appearance: none;
-  background-image: url("data:image/svg+xml,..."); /* 화살표 아이콘 */
-  background-repeat: no-repeat;
-  background-position: right var(--space-3) center;
-  padding-right: var(--space-8);
-  cursor: pointer;
-}
-```
-
----
-
-### 8-5. 카드 (Card)
-
-```css
-.card {
-  background: var(--color-neutral-0);
-  border: 1px solid var(--color-neutral-200);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
-}
-```
-
----
-
-### 8-6. 모달 (Dialog)
-
-```css
-/* 오버레이 */
-.modal-overlay {
+.snackbar {
   position: fixed;
-  inset: 0;
-  background: rgba(32,33,36,.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-}
-
-/* 모달 박스 */
-.modal {
-  background: var(--color-neutral-0);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-xl);
-  width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: var(--space-6);
-}
-
-/* 모달 헤더 */
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-5);
-  font-size: var(--text-lg);
-  font-weight: var(--font-medium);
-  color: var(--color-neutral-900);
-}
-
-/* 모바일: 풀스크린 모달 */
-@media (max-width: 767px) {
-  .modal-overlay { align-items: stretch; }
-  .modal {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 0;
-    padding: var(--space-4);
-  }
-}
-```
-
----
-
-### 8-7. 상태 배지 (Status Badge)
-
-할 일 항목의 현재 상태를 나타내는 인라인 배지.
-
-```css
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-full);
-  font-size: var(--text-xs);
-  font-weight: var(--font-medium);
-  white-space: nowrap;
-}
-
-.badge--not-started {
-  color: var(--color-neutral-700);
-  background: var(--color-neutral-100);
-}
-
-.badge--in-progress {
-  color: var(--color-primary-600);
-  background: var(--color-primary-50);
-}
-
-.badge--done {
-  color: var(--color-success);
-  background: var(--color-success-bg);
-}
-
-.badge--overdue {
-  color: var(--color-overdue);
-  background: var(--color-overdue-bg);
-}
-```
-
----
-
-### 8-8. 필터 탭 (Status Filter)
-
-메인 화면 상단의 상태 필터 탭. Gmail의 Primary / Promotions / Social 탭 패턴 참조.
-
-```css
-.filter-tabs {
-  display: flex;
-  gap: var(--space-1);
-  border-bottom: 1px solid var(--color-neutral-200);
-  padding: 0 var(--space-4);
-}
-
-.filter-tab {
-  padding: var(--space-3) var(--space-4);
-  font-size: var(--text-base);
-  color: var(--color-neutral-700);
-  border-bottom: 3px solid transparent;
-  margin-bottom: -1px;
-  cursor: pointer;
-  transition: color 150ms, border-color 150ms;
-  white-space: nowrap;
-}
-
-.filter-tab:hover {
-  color: var(--color-primary-600);
-  background: var(--color-neutral-50);
-}
-
-.filter-tab--active {
-  color: var(--color-primary-600);
-  border-bottom-color: var(--color-primary-600);
-  font-weight: var(--font-medium);
-}
-```
-
----
-
-### 8-9. 할 일 목록 아이템 (Todo Item)
-
-Gmail 이메일 행 디자인을 참조하여 행 호버 효과와 정보 계층을 구성한다.
-
-```css
-.todo-item {
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--color-neutral-200);
-  background: var(--color-neutral-0);
-  transition: background 100ms;
-  min-height: 52px;
-}
-
-.todo-item:hover {
-  background: var(--color-neutral-50);
-  box-shadow: var(--shadow-sm);
-  z-index: 1;
-  position: relative;
-}
-
-/* 기한 초과 행 좌측 강조선 */
-.todo-item--overdue {
-  border-left: 3px solid var(--color-overdue);
-  padding-left: calc(var(--space-4) - 3px);
-}
-
-/* 제목 영역 */
-.todo-item__title {
-  flex: 1;
+  background: #323232;
+  color: #ffffff;
+  border-radius: var(--radius-xs);
   font-size: var(--text-base);
-  color: var(--color-neutral-900);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  box-shadow: var(--shadow-popup);
+  z-index: 300;
+  animation: snackbar-in 200ms ease;
 }
 
-.todo-item__title--done {
-  text-decoration: line-through;
-  color: var(--color-neutral-600);
+@keyframes snackbar-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0);   }
 }
 
-/* 날짜 */
-.todo-item__date {
+.snackbar__action {
+  color: var(--color-primary-200);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  text-transform: uppercase;
   font-size: var(--text-sm);
-  color: var(--color-neutral-600);
-  white-space: nowrap;
-}
-
-.todo-item__date--overdue {
-  color: var(--color-overdue);
-  font-weight: var(--font-medium);
-}
-
-/* 액션 버튼 영역 — 호버 시 표시 */
-.todo-item__actions {
-  display: flex;
-  gap: var(--space-1);
-  opacity: 0;
-  transition: opacity 150ms;
-}
-
-.todo-item:hover .todo-item__actions {
-  opacity: 1;
 }
 ```
 
 ---
 
-### 8-10. 카테고리 사이드바 아이템
-
-Gmail 좌측 네비게이션 아이템 스타일을 참조한다.
-
-```css
-.category-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-2) var(--space-3);
-  border-radius: 0 var(--radius-full) var(--radius-full) 0;
-  margin-right: var(--space-2);
-  font-size: var(--text-base);
-  color: var(--color-neutral-900);
-  cursor: pointer;
-  transition: background 100ms;
-}
-
-.category-item:hover {
-  background: var(--color-neutral-200);
-}
-
-.category-item--active {
-  background: var(--color-primary-100);
-  color: var(--color-primary-700);
-  font-weight: var(--font-semibold);
-}
-```
-
----
-
-### 8-11. 알림 메시지 (Toast / Alert)
-
-```css
-/* 성공 토스트 */
-.alert {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-base);
-}
-
-.alert--success {
-  background: var(--color-success-bg);
-  color: var(--color-success);
-  border: 1px solid var(--color-success);
-}
-
-.alert--error {
-  background: var(--color-error-bg);
-  color: var(--color-error);
-  border: 1px solid var(--color-error);
-}
-
-.alert--warning {
-  background: var(--color-warning-bg);
-  color: var(--color-warning);
-  border: 1px solid var(--color-warning);
-}
-```
-
----
-
-### 8-12. 빈 상태 (Empty State)
+### 8-15. 빈 상태 (Empty State)
 
 ```css
 .empty-state {
@@ -770,227 +1038,233 @@ Gmail 좌측 네비게이션 아이템 스타일을 참조한다.
   align-items: center;
   justify-content: center;
   gap: var(--space-4);
-  padding: var(--space-16);
+  padding: var(--space-12) var(--space-6);
   text-align: center;
-  color: var(--color-neutral-600);
 }
 
 .empty-state__icon {
-  width: 64px;
-  height: 64px;
-  opacity: .4;
+  width: 120px;
+  height: 120px;
+  opacity: .3;
 }
 
 .empty-state__title {
   font-size: var(--text-md);
-  color: var(--color-neutral-700);
+  color: var(--color-text-primary);
+  font-weight: var(--font-medium);
 }
 
 .empty-state__desc {
-  font-size: var(--text-sm);
-  color: var(--color-neutral-600);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  max-width: 320px;
 }
 ```
 
 ---
 
-### 8-13. 확인 다이얼로그 (Confirm Dialog)
-
-카테고리 삭제, 회원 탈퇴 시 사용.
+### 8-16. 확인 다이얼로그
 
 ```css
-.confirm-dialog {
-  background: var(--color-neutral-0);
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fade-in 150ms ease;
+}
+
+.dialog {
+  background: var(--color-surface);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--shadow-popup);
   padding: var(--space-6);
   max-width: 400px;
-  width: 90%;
+  width: calc(100% - var(--space-8));
+  animation: scale-in 150ms cubic-bezier(.4, 0, .2, 1);
 }
 
-.confirm-dialog__title {
+.dialog__title {
   font-size: var(--text-md);
   font-weight: var(--font-medium);
-  color: var(--color-neutral-900);
-  margin-bottom: var(--space-2);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
 }
 
-.confirm-dialog__desc {
+.dialog__body {
   font-size: var(--text-base);
-  color: var(--color-neutral-700);
+  color: var(--color-text-secondary);
   margin-bottom: var(--space-6);
+  line-height: 1.6;
 }
 
-.confirm-dialog__actions {
+.dialog__actions {
   display: flex;
   justify-content: flex-end;
-  gap: var(--space-3);
-}
-```
-
----
-
-### 8-14. 스켈레톤 로딩 (Skeleton)
-
-TanStack Query 로딩 중 표시.
-
-```css
-@keyframes skeleton-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: .4; }
+  gap: var(--space-2);
 }
 
-.skeleton {
-  background: var(--color-neutral-200);
-  border-radius: var(--radius-sm);
-  animation: skeleton-pulse 1.5s ease-in-out infinite;
+@keyframes fade-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(.92); }
+  to   { opacity: 1; transform: scale(1);   }
 }
-
-.skeleton--text   { height: 14px; }
-.skeleton--title  { height: 20px; }
-.skeleton--avatar { border-radius: var(--radius-full); }
 ```
 
 ---
 
 ## 9. 아이콘
 
-Material Symbols (Google Icons) 또는 Lucide React를 사용한다.
+Google Calendar와 동일하게 **Material Symbols Rounded** 또는 **Lucide React**를 사용한다.
 
-| 역할 | 아이콘 이름 (Lucide) | 크기 |
-|------|---------------------|------|
-| 할 일 추가 (FAB) | `Plus` | 24px |
-| 수정 | `Pencil` | 16px |
-| 삭제 | `Trash2` | 16px |
-| 닫기 | `X` | 20px |
-| 뒤로 가기 (모바일) | `ArrowLeft` | 20px |
-| 카테고리 | `Tag` | 16px |
-| 프로필 | `User` | 20px |
-| 로그아웃 | `LogOut` | 20px |
-| 기한 초과 경고 | `AlertCircle` | 14px |
-| 완료 체크 | `CheckCircle2` | 16px |
-| 테마 (라이트) | `Sun` | 20px |
-| 테마 (다크) | `Moon` | 20px |
-| 드롭다운 화살표 | `ChevronDown` | 16px |
+| 역할 | Material Symbol | Lucide React | 크기 |
+|------|----------------|-------------|------|
+| 할 일 추가 (Create) | `add` | `Plus` | 24px |
+| 닫기 | `close` | `X` | 20px |
+| 수정/편집 | `edit` | `Pencil` | 18px |
+| 삭제 | `delete` | `Trash2` | 18px |
+| 날짜/캘린더 | `schedule` | `Clock` | 20px |
+| 카테고리/태그 | `label` | `Tag` | 20px |
+| 완료 체크 | `check_circle` | `CheckCircle2` | 20px |
+| 기한 초과 경고 | `warning` | `AlertCircle` | 16px |
+| 설명 | `notes` | `AlignLeft` | 20px |
+| 프로필 | `person` | `User` | 20px |
+| 로그아웃 | `logout` | `LogOut` | 20px |
+| 설정 | `settings` | `Settings` | 20px |
+| 다크 모드 | `dark_mode` | `Moon` | 20px |
+| 라이트 모드 | `light_mode` | `Sun` | 20px |
+| 드롭다운 | `expand_more` | `ChevronDown` | 18px |
+| 뒤로 | `arrow_back` | `ArrowLeft` | 20px |
+| 더 보기 | `more_vert` | `MoreVertical` | 20px |
 
 ---
 
-## 10. 애니메이션 & 트랜지션
+## 10. 애니메이션
 
 ```css
 :root {
-  --transition-fast:   100ms ease;
-  --transition-base:   150ms ease;
-  --transition-slow:   250ms ease;
-  --transition-modal:  200ms cubic-bezier(.4, 0, .2, 1);
+  --easing-standard:  cubic-bezier(.4, 0, .2, 1);   /* Material Standard */
+  --easing-decelerate: cubic-bezier(0, 0, .2, 1);   /* 진입 (위에서 아래) */
+  --easing-accelerate: cubic-bezier(.4, 0, 1, 1);   /* 퇴장 */
+
+  --duration-short:  100ms;
+  --duration-medium: 200ms;
+  --duration-long:   300ms;
 }
 ```
 
-| 요소 | 속성 | 지속시간 |
-|------|------|---------|
-| 버튼 hover | `background`, `box-shadow` | 150ms |
-| 입력 focus | `border-color`, `box-shadow` | 150ms |
-| 목록 행 hover | `background` | 100ms |
-| 모달 등장 | `opacity`, `transform` | 200ms |
-| 사이드바 (모바일) | `transform` | 250ms |
-| 스켈레톤 | `opacity` (pulse) | 1500ms |
+| 요소 | 속성 | 지속 시간 | Easing |
+|------|------|----------|--------|
+| 버튼 hover | `background`, `box-shadow` | 150ms | standard |
+| 입력 focus | `border-color`, `box-shadow` | 150ms | standard |
+| 칩/탭 선택 | `background`, `color` | 150ms | standard |
+| 카드 hover | `background`, `box-shadow` | 100ms | standard |
+| 팝업 등장 | `opacity`, `transform` | 200ms | decelerate |
+| 다이얼로그 | `opacity`, `transform(scale)` | 150ms | standard |
+| 스낵바 | `opacity`, `translateY` | 200ms | decelerate |
+| 드로어(모바일) | `transform(translateX)` | 300ms | standard |
 
-### 모달 등장 애니메이션
+---
 
-```css
-@keyframes modal-in {
-  from { opacity: 0; transform: translateY(-16px) scale(.96); }
-  to   { opacity: 1; transform: translateY(0)     scale(1); }
-}
+## 11. 페이지별 적용
 
-.modal { animation: modal-in var(--transition-modal); }
+### 11-1. 로그인 / 회원가입
+
+```
+배경: --color-surface-dim
+카드: --color-surface, border-radius --radius-md, shadow --shadow-card
+제목 입력: .input-title (하단 선 스타일)
+버튼: .btn-save (전체 너비)
+```
+
+### 11-2. 메인 화면
+
+```
+Header: 60px, --color-surface, border-bottom --color-outline
+Sidebar: 165px, --color-surface
+  - .btn-create (할 일 추가 진입)
+  - .category-list (카테고리 컬러 체크리스트)
+Main:
+  - .filter-chips (상태 칩 필터)
+  - .todo-card (카드 목록, 좌측 카테고리 색 테두리)
+  - .btn-fab (모바일 우하단)
+```
+
+### 11-3. 할 일 등록/수정 모달
+
+```
+오버레이: rgba(0,0,0,.32)
+팝업: .popup (max-width 440px)
+  - .input-title (하단 선 제목 입력)
+  - .popup-tabs (상태 탭)
+  - .form-row × N (날짜, 카테고리, 설명 — 아이콘 행)
+  - .popup-actions ([취소: .btn-text] [저장: .btn-save])
+```
+
+### 11-4. 프로필 화면
+
+```
+콘텐츠: max-width 560px, margin auto
+섹션 카드: --color-surface, border --color-outline, border-radius --radius-md
+입력 필드: .input (라운드 박스 스타일)
+탈퇴 섹션: border-top 1px solid --color-error
 ```
 
 ---
 
-## 11. 페이지별 레이아웃 적용
+## 12. 접근성
 
-### 11-1. 로그인 / 회원가입 (WF-01, WF-02)
-
-- 전체 화면 중앙 정렬 (flexbox, min-height: 100vh)
-- 폼 카드: `max-width: 480px`, `.card` 스타일 적용
-- 앱 타이틀 + 부제목: 카드 상단에 중앙 정렬
-
-```
-배경: --color-neutral-50
-카드: .card (max-width 480px, margin auto)
-버튼: .btn-primary (width 100%)
-```
-
-### 11-2. 메인 화면 (WF-03)
-
-```
-레이아웃: .app-layout (grid)
-헤더: 56px, border-bottom
-사이드바(데스크탑): 256px, --color-neutral-100
-필터 탭: .filter-tabs (4개 탭)
-할 일 목록: .todo-item 반복
-FAB: .btn-fab (우하단 고정)
-```
-
-### 11-3. 할 일 등록/수정 모달 (WF-04)
-
-```
-오버레이: .modal-overlay
-모달: .modal (max-width 600px)
-폼 필드 간격: --space-5 (20px)
-액션 버튼: 우측 정렬, [취소: .btn-secondary] [저장: .btn-primary]
-```
-
-### 11-4. 프로필 화면 (WF-05)
-
-```
-콘텐츠 max-width: 640px, margin auto
-섹션 카드: .card, --space-6 gap
-탈퇴 섹션: border-top border-color --color-error, 내부 .btn-danger
-```
-
----
-
-## 12. 접근성 체크리스트
-
-| 항목 | 기준 | 구현 방법 |
-|------|------|-----------|
-| 색 대비 (일반 텍스트) | WCAG AA 4.5:1 이상 | `--color-neutral-900` on `--color-neutral-0` = 16.1:1 ✓ |
-| 색 대비 (대형 텍스트) | WCAG AA 3:1 이상 | Primary 600 on White = 4.5:1 ✓ |
-| 포커스 표시 | 모든 인터랙티브 요소 | `box-shadow: 0 0 0 2px --color-primary-600` |
-| 키보드 내비게이션 | Tab 순서 논리적 | `tabIndex` 적절히 관리 |
-| 스크린 리더 | ARIA 레이블 | 아이콘 버튼에 `aria-label`, 오류에 `aria-describedby` |
-| 상태 배지 | 색만으로 상태 전달 금지 | 색 + 텍스트 병용 (예: `● 진행 중`) |
+| 항목 | 기준 | 구현 |
+|------|------|------|
+| 색 대비 (일반 텍스트) | 4.5:1 이상 | `#202124` on `#fff` = 16.1:1 ✓ |
+| 색 대비 (대형 텍스트) | 3:1 이상 | Primary 600 on White = 4.5:1 ✓ |
+| 포커스 표시 | 모든 인터랙티브 요소 | `box-shadow: 0 0 0 2px --color-primary-50` |
+| 카테고리 색상 | 색만으로 구분 금지 | 색 + 이름 텍스트 병용 |
+| 체크박스 | 시각 외 상태 전달 | `aria-checked`, `role="checkbox"` |
+| 모달 포커스 트랩 | 열려 있는 동안 포커스 모달 내 유지 | `focus-trap` 라이브러리 또는 직접 구현 |
 | 다크 모드 | 대비율 유지 | 다크 팔레트도 4.5:1 충족 |
 
 ---
 
-## 13. CSS 변수 전체 목록 (빠른 참조)
+## 13. CSS 변수 빠른 참조
 
 ```css
 /* 색상 */
---color-primary-50 / 100 / 200 / 500 / 600 / 700
---color-neutral-0 / 50 / 100 / 200 / 400 / 600 / 700 / 900
---color-success / --color-success-bg
---color-warning / --color-warning-bg
---color-error   / --color-error-bg
---color-overdue / --color-overdue-bg
+--color-primary-50/100/200/500/600/700
+--color-surface / surface-raised / surface-dim
+--color-outline / outline-focus
+--color-text-primary / secondary / disabled
+--color-today / today-text
+--color-error / error-bg
+
+/* 카테고리 */
+--cat-blue-bg/text/dot
+--cat-cyan-bg/text/dot
+--cat-green-bg/text/dot
+--cat-sage-bg/text/dot
+--cat-yellow-bg/text/dot
+--cat-orange-bg/text/dot
+--cat-pink-bg/text/dot
+--cat-purple-bg/text/dot
+--cat-graphite-bg/text/dot
 
 /* 타이포그래피 */
---font-family-base / --font-family-mono
---text-xs / sm / base / md / lg / xl
---font-normal / medium / semibold
+--text-xs/sm/base/md/lg/xl
+--font-normal/medium/semibold
 
 /* 간격 */
---space-1 / 2 / 3 / 4 / 5 / 6 / 8 / 10 / 12 / 16
+--space-1/2/3/4/5/6/8/10/12
 
 /* 모양 */
---radius-sm / md / lg / full
+--radius-xs/sm/md/lg/full
 
 /* 그림자 */
---shadow-sm / md / lg / xl
+--shadow-popup / menu / card
 
-/* 트랜지션 */
---transition-fast / base / slow / modal
+/* 애니메이션 */
+--easing-standard / decelerate / accelerate
+--duration-short / medium / long
 ```
