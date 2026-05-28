@@ -41,14 +41,14 @@
 **설명**: 로컬 개발 환경에 PostgreSQL 17을 설치·구성하고 `todolist` 데이터베이스와 전용 사용자를 생성한다.
 
 **의존성**
-- [ ] (없음)
+- [x] (없음)
 
 **완료 조건**
-- [ ] PostgreSQL 17이 로컬 환경에 설치되어 서비스가 정상 실행 중인 상태이다
-- [ ] `todolist` 데이터베이스가 생성되어 있다
-- [ ] DB 접속용 전용 사용자 계정이 생성되어 있고, 해당 DB에 대한 권한이 부여되어 있다
-- [ ] `backend/.env` 파일에 `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` 값이 설정되어 있다
-- [ ] `psql` 또는 `pg` 라이브러리를 통해 `todolist` DB에 정상 접속이 확인된다
+- [x] PostgreSQL 17이 로컬 환경에 설치되어 서비스가 정상 실행 중인 상태이다
+- [x] `todolist` 데이터베이스가 생성되어 있다
+- [x] DB 접속용 전용 사용자 계정이 생성되어 있고, 해당 DB에 대한 권한이 부여되어 있다
+- [x] `backend/.env` 파일에 `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` 값이 설정되어 있다
+- [x] `psql` 또는 `pg` 라이브러리를 통해 `todolist` DB에 정상 접속이 확인된다
 
 ---
 
@@ -57,17 +57,17 @@
 **설명**: `database/schema.sql`을 실행하여 ENUM 타입, 테이블 3개(user, category, todo), 인덱스 4개, `updated_at` 트리거를 생성한다.
 
 **의존성**
-- [ ] DB-01 완료
+- [x] DB-01 완료
 
 **완료 조건**
-- [ ] `theme_mode` ENUM 타입(`LIGHT`, `DARK`)이 생성되어 있다
-- [ ] `todo_status` ENUM 타입(`NOT_STARTED`, `IN_PROGRESS`, `DONE`)이 생성되어 있다
-- [ ] `user` 테이블이 생성되어 있고, `id`, `email`, `password`, `name`, `theme_mode`, `created_at` 컬럼을 보유한다
-- [ ] `category` 테이블이 생성되어 있고, `user_id`에 `ON DELETE CASCADE` FK가 적용되어 있다
-- [ ] `todo` 테이블이 생성되어 있고, `category_id`에 `ON DELETE RESTRICT` FK가 적용되어 있다
-- [ ] `todo` 테이블의 `chk_due_date` CHECK 제약 조건이 생성되어 있다
-- [ ] `set_updated_at` 함수 및 `trg_todo_updated_at` 트리거가 생성되어 있다
-- [ ] 인덱스 4개(`idx_category_user_id`, `idx_todo_user_id`, `idx_todo_category_id`, `idx_todo_user_status`, `idx_todo_due_date`)가 생성되어 있다
+- [x] `theme_mode` ENUM 타입(`LIGHT`, `DARK`)이 생성되어 있다
+- [x] `todo_status` ENUM 타입(`NOT_STARTED`, `IN_PROGRESS`, `DONE`)이 생성되어 있다
+- [x] `user` 테이블이 생성되어 있고, `id`, `email`, `password`, `name`, `theme_mode`, `created_at` 컬럼을 보유한다
+- [x] `category` 테이블이 생성되어 있고, `user_id`에 `ON DELETE CASCADE` FK가 적용되어 있다
+- [x] `todo` 테이블이 생성되어 있고, `category_id`에 `ON DELETE RESTRICT` FK가 적용되어 있다
+- [x] `todo` 테이블의 `chk_due_date` CHECK 제약 조건이 생성되어 있다
+- [x] `set_updated_at` 함수 및 `trg_todo_updated_at` 트리거가 생성되어 있다
+- [x] 인덱스 4개(`idx_category_user_id`, `idx_todo_user_id`, `idx_todo_category_id`, `idx_todo_user_status`, `idx_todo_due_date`)가 생성되어 있다
 
 ---
 
@@ -76,15 +76,15 @@
 **설명**: SQL 쿼리를 직접 실행하여 각 테이블의 제약 조건·FK·CHECK·트리거가 의도대로 동작하는지 확인한다.
 
 **의존성**
-- [ ] DB-02 완료
+- [x] DB-02 완료
 
 **완료 조건**
-- [ ] `user` 테이블에 동일 이메일로 2건 INSERT 시 UNIQUE 제약 위반 오류가 발생한다
-- [ ] `category` 테이블에서 존재하지 않는 `user_id`를 참조하면 FK 제약 위반 오류가 발생한다
-- [ ] `user` 레코드 삭제 시 해당 사용자의 `category`, `todo` 레코드가 CASCADE 삭제된다
-- [ ] `todo` 테이블에서 `due_date < start_date`인 값을 INSERT하면 `chk_due_date` CHECK 위반 오류가 발생한다
-- [ ] `todo` 레코드를 UPDATE하면 `updated_at` 값이 자동으로 갱신된다
-- [ ] `todo` 테이블에서 `category_id`가 참조 중인 `category` 레코드를 직접 DELETE하면 RESTRICT 오류가 발생한다
+- [x] `user` 테이블에 동일 이메일로 2건 INSERT 시 UNIQUE 제약 위반 오류가 발생한다
+- [x] `category` 테이블에서 존재하지 않는 `user_id`를 참조하면 FK 제약 위반 오류가 발생한다
+- [x] `user` 레코드 삭제 시 해당 사용자의 `category`, `todo` 레코드가 CASCADE 삭제된다
+- [x] `todo` 테이블에서 `due_date < start_date`인 값을 INSERT하면 `chk_due_date` CHECK 위반 오류가 발생한다
+- [x] `todo` 레코드를 UPDATE하면 `updated_at` 값이 자동으로 갱신된다
+- [x] `todo` 테이블에서 `category_id`가 참조 중인 `category` 레코드를 직접 DELETE하면 RESTRICT 오류가 발생한다
 
 ---
 
