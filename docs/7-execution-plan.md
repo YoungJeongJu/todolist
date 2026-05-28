@@ -95,16 +95,16 @@
 **설명**: `backend/` 디렉토리를 초기화하고, Express 앱·환경변수·pg Pool·디렉토리 구조를 구성한다.
 
 **의존성**
-- [ ] DB-02 완료
+- [x] DB-02 완료
 
 **완료 조건**
-- [ ] `backend/package.json`이 생성되어 있고 `express`, `pg`, `dotenv`, `bcrypt`, `jsonwebtoken`, `cors` 의존성이 포함되어 있다
-- [ ] `backend/src/` 하위에 `routes/`, `controllers/`, `services/`, `repositories/`, `middlewares/`, `db/` 디렉토리가 생성되어 있다
-- [ ] `backend/src/db/pool.js`가 환경변수(`DB_HOST` 등)를 읽어 `pg.Pool` 인스턴스를 생성하고 내보내는 상태이다
-- [ ] `backend/src/app.js`가 Express 앱을 초기화하고, `cors`, `express.json()` 미들웨어를 등록한 상태이다
-- [ ] `backend/server.js`가 `PORT` 환경변수를 읽어 서버를 실행하는 상태이다
-- [ ] `backend/.env.example`이 `4-project-structure.md` 5-1절의 항목(NODE_ENV, PORT, DB_*, JWT_*, BCRYPT_ROUNDS, CORS_ORIGIN)을 모두 포함한다
-- [ ] `node server.js` 실행 시 서버가 정상 기동되고 DB pool 연결이 확인된다
+- [x] `backend/package.json`이 생성되어 있고 `express`, `pg`, `dotenv`, `bcrypt`, `jsonwebtoken`, `cors` 의존성이 포함되어 있다
+- [x] `backend/src/` 하위에 `routes/`, `controllers/`, `services/`, `repositories/`, `middlewares/`, `db/` 디렉토리가 생성되어 있다
+- [x] `backend/src/db/pool.js`가 환경변수(`DB_HOST` 등)를 읽어 `pg.Pool` 인스턴스를 생성하고 내보내는 상태이다
+- [x] `backend/src/app.js`가 Express 앱을 초기화하고, `cors`, `express.json()` 미들웨어를 등록한 상태이다
+- [x] `backend/server.js`가 `PORT` 환경변수를 읽어 서버를 실행하는 상태이다
+- [x] `backend/.env.example`이 `4-project-structure.md` 5-1절의 항목(NODE_ENV, PORT, DB_*, JWT_*, BCRYPT_ROUNDS, CORS_ORIGIN)을 모두 포함한다
+- [x] `node server.js` 실행 시 서버가 정상 기동되고 DB pool 연결이 확인된다
 
 ---
 
@@ -113,15 +113,15 @@
 **설명**: JWT 검증 미들웨어(`auth.middleware.js`)와 전역 에러 핸들러(`error.middleware.js`)를 구현한다.
 
 **의존성**
-- [ ] BE-01 완료
+- [x] BE-01 완료
 
 **완료 조건**
-- [ ] `backend/src/middlewares/auth.middleware.js`가 `Authorization: Bearer <token>` 헤더를 파싱하여 JWT를 검증하는 상태이다
-- [ ] 유효한 토큰인 경우 `req.user`에 `{ id, email }` 형태로 사용자 정보가 주입된다
-- [ ] 토큰이 없거나 유효하지 않은 경우 HTTP 401 응답을 반환한다
-- [ ] `backend/src/middlewares/error.middleware.js`가 Express 4인자 에러 핸들러로 등록되어 있다
-- [ ] 에러 응답은 `{ "error": { "code": "...", "message": "..." } }` 형식(`4-project-structure.md` 5-8절)을 따른다
-- [ ] 스택 트레이스 및 내부 구현 정보가 응답에 포함되지 않는다
+- [x] `backend/src/middlewares/auth.middleware.js`가 `Authorization: Bearer <token>` 헤더를 파싱하여 JWT를 검증하는 상태이다
+- [x] 유효한 토큰인 경우 `req.user`에 `{ id, email }` 형태로 사용자 정보가 주입된다
+- [x] 토큰이 없거나 유효하지 않은 경우 HTTP 401 응답을 반환한다
+- [x] `backend/src/middlewares/error.middleware.js`가 Express 4인자 에러 핸들러로 등록되어 있다
+- [x] 에러 응답은 `{ "error": { "code": "...", "message": "..." } }` 형식(`4-project-structure.md` 5-8절)을 따른다
+- [x] 스택 트레이스 및 내부 구현 정보가 응답에 포함되지 않는다
 
 ---
 
@@ -130,26 +130,26 @@
 **설명**: 인증 관련 4개 엔드포인트를 Route → Controller → Service → Repository 구조로 구현한다.
 
 **의존성**
-- [ ] BE-02 완료
+- [x] BE-02 완료
 
 **완료 조건**
-- [ ] `POST /api/auth/register` 엔드포인트가 구현되어 있다
-  - [ ] 이메일 형식 미충족 또는 중복 시 HTTP 409/400을 반환하고 `DUPLICATE_EMAIL` 등 에러 코드를 응답한다 (UC-01 AC-01, US-18)
-  - [ ] 비밀번호가 8자 미만이거나 영문+숫자 미포함 시 HTTP 400을 반환한다 (UC-01 AC-02)
-  - [ ] 이름이 1~50자 범위를 벗어나면 HTTP 400을 반환한다 (UC-01 AC-03)
-  - [ ] 가입 성공 시 `category` 테이블에 `is_default=true`인 '기본' 카테고리가 자동 생성된다 (BR-05, UC-01 AC-04)
-  - [ ] 가입 성공 즉시 JWT를 발급하여 로그인 상태로 응답한다 (UC-01 AC-05)
-  - [ ] 비밀번호는 bcrypt로 해시하여 저장하며 평문이 DB에 저장되지 않는다
-- [ ] `POST /api/auth/login` 엔드포인트가 구현되어 있다
-  - [ ] 이메일·비밀번호 일치 시 JWT를 발급하여 HTTP 200으로 응답한다 (UC-02 AC-01)
-  - [ ] 불일치 시 이메일 존재 여부를 노출하지 않는 포괄적 오류 메시지와 HTTP 401을 반환한다 (UC-02 AC-02, US-22)
-- [ ] `PATCH /api/auth/me` 엔드포인트가 구현되어 있다 (인증 미들웨어 적용)
-  - [ ] 이름(1~50자) 또는 비밀번호 변경 요청을 처리한다 (UC-03 AC-01, BR-02)
-  - [ ] 비밀번호 변경 시 현재 비밀번호 확인 절차를 수행하며, 불일치 시 HTTP 401을 반환한다 (UC-03 AC-02)
-  - [ ] 본인 계정만 수정 가능하며, 타인 접근 시 HTTP 403을 반환한다 (UC-03 AC-03, BR-04)
-- [ ] `DELETE /api/auth/me` 엔드포인트가 구현되어 있다 (인증 미들웨어 적용)
-  - [ ] 탈퇴 성공 시 해당 사용자의 모든 할 일·카테고리가 CASCADE 삭제된다 (BR-03, UC-04 AC-01)
-  - [ ] HTTP 204로 응답한다
+- [x] `POST /api/auth/register` 엔드포인트가 구현되어 있다
+  - [x] 이메일 형식 미충족 또는 중복 시 HTTP 409/400을 반환하고 `DUPLICATE_EMAIL` 등 에러 코드를 응답한다 (UC-01 AC-01, US-18)
+  - [x] 비밀번호가 8자 미만이거나 영문+숫자 미포함 시 HTTP 400을 반환한다 (UC-01 AC-02)
+  - [x] 이름이 1~50자 범위를 벗어나면 HTTP 400을 반환한다 (UC-01 AC-03)
+  - [x] 가입 성공 시 `category` 테이블에 `is_default=true`인 '기본' 카테고리가 자동 생성된다 (BR-05, UC-01 AC-04)
+  - [x] 가입 성공 즉시 JWT를 발급하여 로그인 상태로 응답한다 (UC-01 AC-05)
+  - [x] 비밀번호는 bcrypt로 해시하여 저장하며 평문이 DB에 저장되지 않는다
+- [x] `POST /api/auth/login` 엔드포인트가 구현되어 있다
+  - [x] 이메일·비밀번호 일치 시 JWT를 발급하여 HTTP 200으로 응답한다 (UC-02 AC-01)
+  - [x] 불일치 시 이메일 존재 여부를 노출하지 않는 포괄적 오류 메시지와 HTTP 401을 반환한다 (UC-02 AC-02, US-22)
+- [x] `PATCH /api/auth/me` 엔드포인트가 구현되어 있다 (인증 미들웨어 적용)
+  - [x] 이름(1~50자) 또는 비밀번호 변경 요청을 처리한다 (UC-03 AC-01, BR-02)
+  - [x] 비밀번호 변경 시 현재 비밀번호 확인 절차를 수행하며, 불일치 시 HTTP 401을 반환한다 (UC-03 AC-02)
+  - [x] 본인 계정만 수정 가능하며, 타인 접근 시 HTTP 403을 반환한다 (UC-03 AC-03, BR-04)
+- [x] `DELETE /api/auth/me` 엔드포인트가 구현되어 있다 (인증 미들웨어 적용)
+  - [x] 탈퇴 성공 시 해당 사용자의 모든 할 일·카테고리가 CASCADE 삭제된다 (BR-03, UC-04 AC-01)
+  - [x] HTTP 204로 응답한다
 
 ---
 
@@ -158,19 +158,19 @@
 **설명**: 카테고리 목록 조회, 생성, 삭제 엔드포인트를 구현한다. 모든 엔드포인트에 인증 미들웨어를 적용한다.
 
 **의존성**
-- [ ] BE-02 완료
+- [x] BE-02 완료
 
 **완료 조건**
-- [ ] `GET /api/categories` 엔드포인트가 구현되어 있다
-  - [ ] 로그인 사용자 본인의 카테고리 목록만 반환한다 (BR-04)
-- [ ] `POST /api/categories` 엔드포인트가 구현되어 있다
-  - [ ] 이름이 1~30자 범위를 벗어나면 HTTP 400을 반환한다 (UC-05 AC-01)
-  - [ ] 생성 성공 시 HTTP 201과 생성된 카테고리 객체를 반환한다
-- [ ] `DELETE /api/categories/:id` 엔드포인트가 구현되어 있다
-  - [ ] `is_default=true`인 카테고리 삭제 요청 시 HTTP 400을 반환한다 (BR-06, UC-06 AC-01, US-21)
-  - [ ] 삭제 전 해당 카테고리의 할 일을 기본 카테고리로 이관하는 처리가 Service 계층에서 수행된다 (BR-07, UC-06 AC-02)
-  - [ ] 타인의 카테고리 삭제 요청 시 HTTP 403을 반환한다 (BR-04)
-  - [ ] 삭제 성공 시 HTTP 204로 응답한다
+- [x] `GET /api/categories` 엔드포인트가 구현되어 있다
+  - [x] 로그인 사용자 본인의 카테고리 목록만 반환한다 (BR-04)
+- [x] `POST /api/categories` 엔드포인트가 구현되어 있다
+  - [x] 이름이 1~30자 범위를 벗어나면 HTTP 400을 반환한다 (UC-05 AC-01)
+  - [x] 생성 성공 시 HTTP 201과 생성된 카테고리 객체를 반환한다
+- [x] `DELETE /api/categories/:id` 엔드포인트가 구현되어 있다
+  - [x] `is_default=true`인 카테고리 삭제 요청 시 HTTP 400을 반환한다 (BR-06, UC-06 AC-01, US-21)
+  - [x] 삭제 전 해당 카테고리의 할 일을 기본 카테고리로 이관하는 처리가 Service 계층에서 수행된다 (BR-07, UC-06 AC-02)
+  - [x] 타인의 카테고리 삭제 요청 시 HTTP 403을 반환한다 (BR-04)
+  - [x] 삭제 성공 시 HTTP 204로 응답한다
 
 ---
 
@@ -179,30 +179,30 @@
 **설명**: 할 일 목록 조회, 등록, 수정, 삭제, 상태 변경 엔드포인트를 구현한다. 모든 엔드포인트에 인증 미들웨어를 적용한다.
 
 **의존성**
-- [ ] BE-02 완료
-- [ ] BE-04 완료
+- [x] BE-02 완료
+- [x] BE-04 완료
 
 **완료 조건**
-- [ ] `GET /api/todos` 엔드포인트가 구현되어 있다
-  - [ ] 로그인 사용자 본인의 할 일 목록만 반환한다 (BR-04)
-  - [ ] 응답에 각 할 일의 `isOverdue` 파생 필드가 포함된다 (`dueDate < 오늘 AND status != DONE`)
-- [ ] `POST /api/todos` 엔드포인트가 구현되어 있다
-  - [ ] 제목이 없거나 100자를 초과하면 HTTP 400을 반환한다 (UC-07 AC-01)
-  - [ ] 설명이 1000자를 초과하면 HTTP 400을 반환한다 (UC-07 AC-02)
-  - [ ] `dueDate < startDate`인 경우 HTTP 400을 반환한다 (BR-09, UC-07 AC-04, US-19)
-  - [ ] `categoryId` 미지정 시 기본 카테고리가 자동 적용된다 (BR-08, UC-07 AC-05)
-  - [ ] 초기 `status`는 `NOT_STARTED`이다 (UC-07 AC-06)
-  - [ ] 생성 성공 시 HTTP 201과 생성된 할 일 객체를 반환한다
-- [ ] `PATCH /api/todos/:id` 엔드포인트가 구현되어 있다
-  - [ ] 제목·설명·시작일·종료일·카테고리 수정 요청을 처리한다 (UC-08 AC-01)
-  - [ ] 등록 규칙과 동일한 유효성 검증(날짜, 제목 길이 등)을 수행한다 (UC-08 AC-02)
-  - [ ] 타인의 할 일 수정 요청 시 HTTP 403을 반환한다 (UC-08 AC-03, BR-04)
-- [ ] `DELETE /api/todos/:id` 엔드포인트가 구현되어 있다
-  - [ ] 타인의 할 일 삭제 요청 시 HTTP 403을 반환한다 (UC-09 AC-01, BR-04)
-  - [ ] 삭제 성공 시 HTTP 204로 응답한다
-- [ ] `PATCH /api/todos/:id/status` 엔드포인트가 구현되어 있다
-  - [ ] `status` 값이 `NOT_STARTED`, `IN_PROGRESS`, `DONE` 중 하나가 아니면 HTTP 400을 반환한다 (UC-10 AC-01)
-  - [ ] 상태 변경은 API 호출(사용자의 명시적 조작)로만 가능하며, 날짜 기반 자동 전이 로직이 없다 (BR-10, UC-10 AC-02~03)
+- [x] `GET /api/todos` 엔드포인트가 구현되어 있다
+  - [x] 로그인 사용자 본인의 할 일 목록만 반환한다 (BR-04)
+  - [x] 응답에 각 할 일의 `isOverdue` 파생 필드가 포함된다 (`dueDate < 오늘 AND status != DONE`)
+- [x] `POST /api/todos` 엔드포인트가 구현되어 있다
+  - [x] 제목이 없거나 100자를 초과하면 HTTP 400을 반환한다 (UC-07 AC-01)
+  - [x] 설명이 1000자를 초과하면 HTTP 400을 반환한다 (UC-07 AC-02)
+  - [x] `dueDate < startDate`인 경우 HTTP 400을 반환한다 (BR-09, UC-07 AC-04, US-19)
+  - [x] `categoryId` 미지정 시 기본 카테고리가 자동 적용된다 (BR-08, UC-07 AC-05)
+  - [x] 초기 `status`는 `NOT_STARTED`이다 (UC-07 AC-06)
+  - [x] 생성 성공 시 HTTP 201과 생성된 할 일 객체를 반환한다
+- [x] `PATCH /api/todos/:id` 엔드포인트가 구현되어 있다
+  - [x] 제목·설명·시작일·종료일·카테고리 수정 요청을 처리한다 (UC-08 AC-01)
+  - [x] 등록 규칙과 동일한 유효성 검증(날짜, 제목 길이 등)을 수행한다 (UC-08 AC-02)
+  - [x] 타인의 할 일 수정 요청 시 HTTP 403을 반환한다 (UC-08 AC-03, BR-04)
+- [x] `DELETE /api/todos/:id` 엔드포인트가 구현되어 있다
+  - [x] 타인의 할 일 삭제 요청 시 HTTP 403을 반환한다 (UC-09 AC-01, BR-04)
+  - [x] 삭제 성공 시 HTTP 204로 응답한다
+- [x] `PATCH /api/todos/:id/status` 엔드포인트가 구현되어 있다
+  - [x] `status` 값이 `NOT_STARTED`, `IN_PROGRESS`, `DONE` 중 하나가 아니면 HTTP 400을 반환한다 (UC-10 AC-01)
+  - [x] 상태 변경은 API 호출(사용자의 명시적 조작)로만 가능하며, 날짜 기반 자동 전이 로직이 없다 (BR-10, UC-10 AC-02~03)
 
 ---
 
@@ -211,16 +211,16 @@
 **설명**: `GET /api/todos` 엔드포인트에 쿼리 파라미터 기반 필터링을 추가한다.
 
 **의존성**
-- [ ] BE-05 완료
+- [x] BE-05 완료
 
 **완료 조건**
-- [ ] `GET /api/todos?status=NOT_STARTED` 요청 시 `status=NOT_STARTED AND (dueDate >= 오늘 OR dueDate IS NULL)` 조건의 할 일만 반환한다 (UC-11 AC-01)
-- [ ] `GET /api/todos?status=IN_PROGRESS` 요청 시 `status=IN_PROGRESS AND (dueDate >= 오늘 OR dueDate IS NULL)` 조건의 할 일만 반환한다 (UC-11 AC-02)
-- [ ] `GET /api/todos?status=DONE` 요청 시 `status=DONE` 조건의 할 일만 반환한다 (UC-11 AC-03)
-- [ ] `GET /api/todos?status=OVERDUE` 요청 시 `dueDate < 오늘 AND status != DONE` 조건의 할 일만 반환한다 (UC-11 AC-04)
-- [ ] `GET /api/todos?categoryId=<uuid>` 요청 시 해당 카테고리의 할 일만 반환한다 (UC-12 AC-01)
-- [ ] `status`와 `categoryId` 파라미터를 동시에 사용하면 두 조건이 AND로 결합되어 적용된다 (UC-12 AC-02)
-- [ ] 조건에 해당하는 할 일이 없으면 빈 배열(`[]`)을 반환한다
+- [x] `GET /api/todos?status=NOT_STARTED` 요청 시 `status=NOT_STARTED AND (dueDate >= 오늘 OR dueDate IS NULL)` 조건의 할 일만 반환한다 (UC-11 AC-01)
+- [x] `GET /api/todos?status=IN_PROGRESS` 요청 시 `status=IN_PROGRESS AND (dueDate >= 오늘 OR dueDate IS NULL)` 조건의 할 일만 반환한다 (UC-11 AC-02)
+- [x] `GET /api/todos?status=DONE` 요청 시 `status=DONE` 조건의 할 일만 반환한다 (UC-11 AC-03)
+- [x] `GET /api/todos?status=OVERDUE` 요청 시 `dueDate < 오늘 AND status != DONE` 조건의 할 일만 반환한다 (UC-11 AC-04)
+- [x] `GET /api/todos?categoryId=<uuid>` 요청 시 해당 카테고리의 할 일만 반환한다 (UC-12 AC-01)
+- [x] `status`와 `categoryId` 파라미터를 동시에 사용하면 두 조건이 AND로 결합되어 적용된다 (UC-12 AC-02)
+- [x] 조건에 해당하는 할 일이 없으면 빈 배열(`[]`)을 반환한다
 
 ---
 
