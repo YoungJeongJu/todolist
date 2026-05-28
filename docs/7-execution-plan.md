@@ -64,10 +64,10 @@
 - [x] `todo_status` ENUM 타입(`NOT_STARTED`, `IN_PROGRESS`, `DONE`)이 생성되어 있다
 - [x] `user` 테이블이 생성되어 있고, `id`, `email`, `password`, `name`, `theme_mode`, `created_at` 컬럼을 보유한다
 - [x] `category` 테이블이 생성되어 있고, `user_id`에 `ON DELETE CASCADE` FK가 적용되어 있다
-- [x] `todo` 테이블이 생성되어 있고, `category_id`에 `ON DELETE RESTRICT` FK가 적용되어 있다
+- [x] `todo` 테이블이 생성되어 있고, `user_id`에 `ON DELETE CASCADE` FK, `category_id`에 `ON DELETE RESTRICT` FK가 적용되어 있다
 - [x] `todo` 테이블의 `chk_due_date` CHECK 제약 조건이 생성되어 있다
 - [x] `set_updated_at` 함수 및 `trg_todo_updated_at` 트리거가 생성되어 있다
-- [x] 인덱스 4개(`idx_category_user_id`, `idx_todo_user_id`, `idx_todo_category_id`, `idx_todo_user_status`, `idx_todo_due_date`)가 생성되어 있다
+- [x] 인덱스 5개(`idx_category_user_id`, `idx_todo_user_id`, `idx_todo_category_id`, `idx_todo_user_status`, `idx_todo_due_date`)가 생성되어 있다
 
 ---
 
@@ -98,7 +98,7 @@
 - [x] DB-02 완료
 
 **완료 조건**
-- [x] `backend/package.json`이 생성되어 있고 `express`, `pg`, `dotenv`, `bcrypt`, `jsonwebtoken`, `cors` 의존성이 포함되어 있다
+- [x] `backend/package.json`이 생성되어 있고 `express`, `pg`, `dotenv`, `bcrypt`, `jsonwebtoken`, `cors`, `swagger-ui-express` 의존성이 포함되어 있다
 - [x] `backend/src/` 하위에 `routes/`, `controllers/`, `services/`, `repositories/`, `middlewares/`, `db/` 디렉토리가 생성되어 있다
 - [x] `backend/src/db/pool.js`가 환경변수(`DB_HOST` 등)를 읽어 `pg.Pool` 인스턴스를 생성하고 내보내는 상태이다
 - [x] `backend/src/app.js`가 Express 앱을 초기화하고, `cors`, `express.json()` 미들웨어를 등록한 상태이다

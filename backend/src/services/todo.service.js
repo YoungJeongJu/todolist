@@ -1,9 +1,16 @@
 import * as todoRepo from '../repositories/todo.repository.js';
 import { findDefaultCategoryByUserId } from '../repositories/category.repository.js';
 
+function toDateStr(val) {
+  if (!val) return null;
+  if (val instanceof Date) return val.toISOString().slice(0, 10);
+  return String(val).slice(0, 10);
+}
+
 function calcIsOverdue(todo) {
+  if (!todo.dueDate || todo.status === 'DONE') return false;
   const today = new Date().toISOString().slice(0, 10);
-  return !!(todo.dueDate && todo.dueDate < today && todo.status !== 'DONE');
+  return toDateStr(todo.dueDate) < today;
 }
 
 function withIsOverdue(todo) {
@@ -50,8 +57,8 @@ export async function updateTodo(userId, todoId, fields) {
   if (!todo) { const err = new Error('할 일을 찾을 수 없습니다.'); err.status = 404; err.code = 'NOT_FOUND'; throw err; }
   if (todo.userId !== userId) { const err = new Error('접근 권한이 없습니다.'); err.status = 403; err.code = 'FORBIDDEN'; throw err; }
 
-  const effectiveStartDate = fields.startDate !== undefined ? fields.startDate : todo.startDate;
-  const effectiveDueDate = fields.dueDate !== undefined ? fields.dueDate : todo.dueDate;
+  const effectiveStartDate = fields.startDate !== undefined ? fields.startDate : toDateStr(todo.startDate);
+  const effectiveDueDate = fields.dueDate !== undefined ? fields.dueDate : toDateStr(todo.dueDate);
   validateTodoFields({ title: fields.title, description: fields.description, startDate: effectiveStartDate, dueDate: effectiveDueDate });
 
   const updated = await todoRepo.updateTodo(todoId, fields);

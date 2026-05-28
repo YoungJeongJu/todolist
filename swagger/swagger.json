@@ -463,22 +463,6 @@
               }
             }
           },
-          "400": {
-            "description": "입력값 유효성 검증 실패",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "error": {
-                    "code": "VALIDATION_ERROR",
-                    "message": "이메일과 비밀번호를 입력해주세요."
-                  }
-                }
-              }
-            }
-          },
           "401": {
             "description": "이메일 또는 비밀번호 불일치",
             "content": {
@@ -564,7 +548,7 @@
             }
           },
           "400": {
-            "description": "입력값 유효성 검증 실패 또는 현재 비밀번호 불일치",
+            "description": "입력값 유효성 검증 실패 (이름 길이, 새 비밀번호 규칙 위반 등)",
             "content": {
               "application/json": {
                 "schema": {
@@ -572,24 +556,36 @@
                 },
                 "example": {
                   "error": {
-                    "code": "INVALID_CURRENT_PASSWORD",
-                    "message": "현재 비밀번호가 올바르지 않습니다."
+                    "code": "INVALID_PASSWORD",
+                    "message": "비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다."
                   }
                 }
               }
             }
           },
           "401": {
-            "description": "인증 토큰 없음 또는 유효하지 않음",
+            "description": "인증 토큰 없음·유효하지 않음, 또는 현재 비밀번호 불일치",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 },
-                "example": {
-                  "error": {
-                    "code": "UNAUTHORIZED",
-                    "message": "인증이 필요합니다."
+                "examples": {
+                  "토큰 없음": {
+                    "value": {
+                      "error": {
+                        "code": "UNAUTHORIZED",
+                        "message": "인증이 필요합니다."
+                      }
+                    }
+                  },
+                  "현재 비밀번호 불일치": {
+                    "value": {
+                      "error": {
+                        "code": "INVALID_CREDENTIALS",
+                        "message": "현재 비밀번호가 올바르지 않습니다."
+                      }
+                    }
                   }
                 }
               }
@@ -938,6 +934,22 @@
                       "updatedAt": "2026-05-28T01:00:00.000Z"
                     }
                   ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "유효하지 않은 status 파라미터",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "status 파라미터가 유효하지 않습니다."
+                  }
                 }
               }
             }

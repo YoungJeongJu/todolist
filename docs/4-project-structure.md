@@ -74,7 +74,7 @@ Route (routes/)
       │  URL 매핑, 미들웨어 연결만 담당
       ▼
 Controller (controllers/)
-      │  요청 파싱, 유효성 검증, 응답 직렬화
+      │  요청 파싱, 응답 직렬화
       ▼
 Service (services/)
       │  비즈니스 로직 (BR-* 규칙 적용 위치)
@@ -249,7 +249,7 @@ VITE_API_BASE_URL=http://localhost:3000/api   # 백엔드 API 기본 URL
 
 ### 5-6. 입력 유효성 검증
 
-- 유효성 검증은 Controller에서 수행하며, Service는 이미 검증된 데이터를 받는다고 가정한다.
+- 유효성 검증은 Service에서 수행한다. Controller는 요청 파싱과 응답 직렬화만 담당한다.
 - 프론트엔드에서도 동일한 규칙으로 1차 검증을 수행하나, 백엔드 검증이 최종 기준이다.
 
 ### 5-7. CORS 설정
@@ -349,7 +349,7 @@ backend/
 │   │   ├── auth.routes.js
 │   │   ├── todo.routes.js
 │   │   └── category.routes.js
-│   ├── controllers/             # 요청 파싱, 유효성 검증, 응답 반환
+│   ├── controllers/             # 요청 파싱, 응답 반환
 │   │   ├── auth.controller.js
 │   │   ├── todo.controller.js
 │   │   └── category.controller.js
@@ -366,12 +366,16 @@ backend/
 │   │   └── error.middleware.js  # 전역 에러 핸들러
 │   ├── db/                      # DB 연결 설정
 │   │   └── pool.js              # pg Pool 인스턴스 생성 및 내보내기
-│   ├── migrations/              # SQL 마이그레이션 스크립트 (순서 번호 접두사)
-│   │   └── 001_init.sql
+│   ├── __tests__/               # 통합 테스트 (jest + supertest)
+│   │   ├── app.test.js
+│   │   ├── auth.test.js
+│   │   ├── category.test.js
+│   │   ├── middleware.test.js
+│   │   ├── todo.test.js
+│   │   └── todo-filter.test.js
 │   └── app.js                   # Express 앱 초기화, 미들웨어·라우터 등록
+├── swagger.json                 # OpenAPI 3.0 스펙 (swagger/swagger.json 사본)
 ├── server.js                    # 서버 진입점 (포트 리슨)
 ├── .env.example
-├── .eslintrc.json
-├── .prettierrc
 └── package.json
 ```

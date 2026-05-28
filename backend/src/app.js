@@ -33,7 +33,7 @@ app.get('/api/health', (_req, res) => {
 });
 
 app.use((_req, res) => {
-  res.status(404).json({ error: 'Not Found' });
+  res.status(404).json({ error: { code: 'NOT_FOUND', message: '요청한 경로를 찾을 수 없습니다.' } });
 });
 
 app.use(errorHandler);
