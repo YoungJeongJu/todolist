@@ -231,15 +231,15 @@
 **설명**: `frontend/` 디렉토리를 Vite 기반으로 초기화하고, 라우터와 TanStack Query Provider를 설정한다.
 
 **의존성**
-- [ ] (없음)
+- [x] (없음)
 
 **완료 조건**
-- [ ] `frontend/package.json`에 `react@19`, `vite`, `typescript`, `react-router-dom`, `@tanstack/react-query`, `axios` 의존성이 포함되어 있다
-- [ ] `frontend/src/` 하위에 `api/`, `components/common/`, `components/todo/`, `components/category/`, `hooks/`, `pages/`, `queries/`, `store/` 디렉토리가 생성되어 있다
-- [ ] `frontend/src/router.tsx`에 `/login`, `/register`, `/` (MainPage), `/profile` 라우트가 정의되어 있다
-- [ ] 미인증 상태에서 `/`, `/profile` 등 보호 라우트 접근 시 `/login`으로 리다이렉트되는 보호 라우트(PrivateRoute)가 구현되어 있다 (UC-02 AC-03, US-20)
-- [ ] `frontend/src/App.tsx`에 `QueryClientProvider`가 설정되어 있다
-- [ ] `vite dev` 명령으로 개발 서버가 정상 기동된다
+- [x] `frontend/package.json`에 `react@19`, `vite`, `typescript`, `react-router-dom`, `@tanstack/react-query`, `axios` 의존성이 포함되어 있다
+- [x] `frontend/src/` 하위에 `api/`, `components/common/`, `components/todo/`, `components/category/`, `hooks/`, `pages/`, `queries/`, `store/` 디렉토리가 생성되어 있다
+- [x] `frontend/src/router.tsx`에 `/login`, `/register`, `/` (MainPage), `/profile` 라우트가 정의되어 있다
+- [x] 미인증 상태에서 `/`, `/profile` 등 보호 라우트 접근 시 `/login`으로 리다이렉트되는 보호 라우트(PrivateRoute)가 구현되어 있다 (UC-02 AC-03, US-20)
+- [x] `frontend/src/App.tsx`에 `QueryClientProvider`가 설정되어 있다
+- [x] `vite dev` 명령으로 개발 서버가 정상 기동된다
 
 ---
 

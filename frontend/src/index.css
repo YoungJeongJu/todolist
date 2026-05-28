@@ -1,0 +1,139 @@
+/* ===== CSS 변수 — TodoList 디자인 시스템 (Google Calendar 참조) ===== */
+
+:root {
+  /* Primary — Google Blue */
+  --color-primary-50:  #e8f0fe;
+  --color-primary-100: #d2e3fc;
+  --color-primary-200: #aecbfa;
+  --color-primary-500: #4285f4;
+  --color-primary-600: #1a73e8;
+  --color-primary-700: #1557b0;
+
+  /* Surface */
+  --color-surface:        #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-surface-dim:    #f6f8fc;
+
+  /* Neutral */
+  --color-outline:        #dadce0;
+  --color-outline-focus:  #1a73e8;
+  --color-text-primary:   #202124;
+  --color-text-secondary: #70757a;
+  --color-text-disabled:  #bdc1c6;
+
+  /* Semantic */
+  --color-today:      #1a73e8;
+  --color-today-text: #ffffff;
+  --color-error:      #d93025;
+  --color-error-bg:   #fce8e6;
+
+  /* 카테고리 색상 팔레트 */
+  --cat-blue-bg:       #e8f0fe;  --cat-blue-text:    #1a73e8;  --cat-blue-dot:    #1a73e8;
+  --cat-cyan-bg:       #e0f7fa;  --cat-cyan-text:    #0097a7;  --cat-cyan-dot:    #0097a7;
+  --cat-green-bg:      #e6f4ea;  --cat-green-text:   #1e8e3e;  --cat-green-dot:   #33b679;
+  --cat-sage-bg:       #f0f4e8;  --cat-sage-text:    #5b8043;  --cat-sage-dot:    #7bd148;
+  --cat-yellow-bg:     #fef7e0;  --cat-yellow-text:  #b06000;  --cat-yellow-dot:  #f6c026;
+  --cat-orange-bg:     #fce8e6;  --cat-orange-text:  #b31412;  --cat-orange-dot:  #ff7043;
+  --cat-pink-bg:       #fce4ec;  --cat-pink-text:    #c62828;  --cat-pink-dot:    #e67c73;
+  --cat-purple-bg:     #f3e8fd;  --cat-purple-text:  #6a0dad;  --cat-purple-dot:  #9e69af;
+  --cat-graphite-bg:   #f1f3f4;  --cat-graphite-text:#3c4043;  --cat-graphite-dot:#616161;
+
+  /* 타이포그래피 */
+  --font-family-base: 'Google Sans', 'Noto Sans KR', -apple-system,
+                      BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --text-xs:   11px;
+  --text-sm:   12px;
+  --text-base: 14px;
+  --text-md:   16px;
+  --text-lg:   22px;
+  --text-xl:   26px;
+
+  --font-normal:   400;
+  --font-medium:   500;
+  --font-semibold: 600;
+
+  /* 간격 */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* 모서리 반경 */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-full: 9999px;
+
+  /* 그림자 */
+  --shadow-popup: 0 8px 10px 1px rgba(0,0,0,.14),
+                  0 3px 14px 2px rgba(0,0,0,.12),
+                  0 5px 5px -3px rgba(0,0,0,.2);
+  --shadow-menu:  0 2px 4px -1px rgba(0,0,0,.2),
+                  0 4px 5px  0  rgba(0,0,0,.14),
+                  0 1px 10px 0  rgba(0,0,0,.12);
+  --shadow-card:  0 1px 3px rgba(60,64,67,.3),
+                  0 4px 8px 3px rgba(60,64,67,.15);
+
+  /* 애니메이션 */
+  --easing-standard:   cubic-bezier(.4, 0, .2, 1);
+  --easing-decelerate: cubic-bezier(0, 0, .2, 1);
+  --easing-accelerate: cubic-bezier(.4, 0, 1, 1);
+
+  --duration-short:  100ms;
+  --duration-medium: 200ms;
+  --duration-long:   300ms;
+}
+
+/* 다크 모드 */
+[data-theme="dark"] {
+  --color-primary-600: #4285f4;
+
+  --color-surface:        #1f1f1f;
+  --color-surface-raised: #292929;
+  --color-surface-dim:    #2d2d2d;
+
+  --color-outline:        #3c4043;
+  --color-outline-focus:  #4285f4;
+  --color-text-primary:   #e8eaed;
+  --color-text-secondary: #9aa0a6;
+  --color-text-disabled:  #5f6368;
+
+  --color-today:      #4285f4;
+  --color-today-text: #ffffff;
+  --color-error:      #f28b82;
+  --color-error-bg:   #3c1a18;
+
+  --cat-blue-bg:    #1a2744;
+  --cat-green-bg:   #0d2e1a;
+  --cat-yellow-bg:  #2e2200;
+  --cat-orange-bg:  #3c1200;
+  --cat-pink-bg:    #3c0a1a;
+  --cat-purple-bg:  #220a3c;
+  --cat-graphite-bg:#2d2d2d;
+}
+
+/* 기본 리셋 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100vh;
+}
