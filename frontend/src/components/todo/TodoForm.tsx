@@ -7,10 +7,11 @@ import type { Todo } from '../../types';
 
 interface Props {
   todo?: Todo;
+  defaultCategoryId?: string;
   onClose: () => void;
 }
 
-export default function TodoForm({ todo, onClose }: Props) {
+export default function TodoForm({ todo, defaultCategoryId, onClose }: Props) {
   const queryClient = useQueryClient();
   const { categories } = useCategories();
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ export default function TodoForm({ todo, onClose }: Props) {
   const [description, setDescription] = useState(todo?.description ?? '');
   const [startDate, setStartDate] = useState(todo?.startDate?.slice(0, 10) ?? '');
   const [dueDate, setDueDate] = useState(todo?.dueDate?.slice(0, 10) ?? '');
-  const [categoryId, setCategoryId] = useState(todo?.categoryId ?? '');
+  const [categoryId, setCategoryId] = useState(todo?.categoryId ?? defaultCategoryId ?? '');
   const [titleError, setTitleError] = useState('');
   const [startDateError, setStartDateError] = useState('');
   const [dueDateError, setDueDateError] = useState('');

@@ -170,6 +170,7 @@ export default function MainPage() {
         {isModalOpen && (
           <TodoForm
             todo={editingTodo ?? undefined}
+            defaultCategoryId={editingTodo ? undefined : (categoryFilter ?? undefined)}
             onClose={() => { setIsModalOpen(false); setEditingTodo(null); }}
           />
         )}
