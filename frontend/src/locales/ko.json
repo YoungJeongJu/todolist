@@ -1,1 +1,125 @@
-{}
+{
+  "app": { "title": "TodoList", "subtitle": "개인 할 일 관리 서비스" },
+  "auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "register": "회원가입",
+    "email": "이메일",
+    "password": "비밀번호",
+    "name": "이름",
+    "passwordConfirm": "비밀번호 확인",
+    "noAccount": "계정이 없으신가요?",
+    "hasAccount": "이미 계정이 있으신가요?",
+    "loginBtn": "로그인",
+    "registerBtn": "가입하기",
+    "errors": {
+      "loginFailed": "로그인에 실패했습니다.",
+      "registerFailed": "회원가입에 실패했습니다."
+    }
+  },
+  "profile": {
+    "title": "프로필",
+    "myInfo": "내 정보",
+    "changeName": "이름 변경",
+    "newNamePlaceholder": "새 이름 (1~50자)",
+    "saveNameBtn": "이름 저장",
+    "changePassword": "비밀번호 변경",
+    "currentPasswordPlaceholder": "현재 비밀번호",
+    "newPasswordPlaceholder": "새 비밀번호 (최소 8자, 영문+숫자)",
+    "confirmNewPasswordPlaceholder": "새 비밀번호 확인",
+    "changePasswordBtn": "비밀번호 변경",
+    "theme": "테마",
+    "themeLight": "☀️ 라이트",
+    "themeDark": "🌙 다크",
+    "deleteAccount": "계정 탈퇴",
+    "deleteAccountWarning": "탈퇴 시 모든 할 일과 카테고리가 영구 삭제됩니다.",
+    "deleteAccountBtn": "회원 탈퇴",
+    "saved": "변경 사항이 저장되었습니다.",
+    "errors": {
+      "nameLength": "이름은 1자 이상 50자 이하여야 합니다",
+      "currentPasswordRequired": "현재 비밀번호를 입력해 주세요",
+      "passwordFormat": "8자 이상, 영문과 숫자를 포함해야 합니다",
+      "passwordMismatch": "비밀번호가 일치하지 않습니다",
+      "currentPasswordWrong": "현재 비밀번호가 올바르지 않습니다",
+      "generic": "오류가 발생했습니다."
+    }
+  },
+  "category": {
+    "title": "카테고리",
+    "all": "전체",
+    "newNamePlaceholder": "새 카테고리 이름",
+    "addBtn": "+추가",
+    "deleteLabel": "{{name}} 삭제",
+    "addCategory": "카테고리 추가",
+    "closeCategory": "카테고리 추가 닫기"
+  },
+  "todo": {
+    "empty": "할 일이 없습니다",
+    "emptyDescription": "해당 조건에 맞는 할 일이 없습니다.",
+    "addBtn": "할 일 추가",
+    "registerTitle": "할 일 등록",
+    "editTitle": "할 일 수정",
+    "titlePlaceholder": "제목을 입력하세요 *",
+    "descriptionPlaceholder": "설명을 입력하세요",
+    "startDate": "시작일",
+    "dueDate": "종료일",
+    "categoryPlaceholder": "카테고리 선택 (기본 적용)",
+    "saveBtn": "저장",
+    "cancelBtn": "취소",
+    "deleteBtn": "삭제",
+    "closeBtn": "닫기",
+    "required": "*",
+    "descriptionCounter": "{{count}} / 1000자",
+    "dueDateUntil": "~{{date}}",
+    "status": {
+      "NOT_STARTED": "미시작",
+      "IN_PROGRESS": "진행 중",
+      "DONE": "완료"
+    },
+    "errors": {
+      "titleRequired": "제목을 입력해 주세요",
+      "titleTooLong": "제목은 100자 이하여야 합니다",
+      "startDateRequired": "시작일을 입력해 주세요",
+      "dueDateRequired": "종료일을 입력해 주세요",
+      "dateRange": "종료일은 시작일과 같거나 이후여야 합니다",
+      "saveFailed": "저장에 실패했습니다. 다시 시도해 주세요."
+    }
+  },
+  "filter": {
+    "all": "전체",
+    "notStarted": "미시작",
+    "inProgress": "진행 중",
+    "done": "완료",
+    "overdue": "기한 초과"
+  },
+  "view": {
+    "list": "목록 보기",
+    "calendar": "캘린더 보기",
+    "month": "월",
+    "week": "주"
+  },
+  "calendar": {
+    "today": "오늘",
+    "previous": "‹",
+    "next": "›",
+    "month": "월",
+    "agenda": "일정",
+    "date": "날짜",
+    "time": "시간",
+    "event": "할 일",
+    "noEvents": "이 기간에 할 일이 없습니다."
+  },
+  "confirm": {
+    "deleteAccount": {
+      "title": "정말 탈퇴하시겠습니까?",
+      "message": "모든 할 일과 카테고리가 영구 삭제됩니다.",
+      "confirmLabel": "탈퇴 확인"
+    },
+    "cancelBtn": "취소",
+    "confirmBtn": "확인"
+  },
+  "lang": {
+    "ko": "한국어",
+    "en": "English"
+  }
+}

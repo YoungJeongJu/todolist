@@ -1,1 +1,125 @@
-{}
+{
+  "app": { "title": "TodoList", "subtitle": "Personal Task Manager" },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "passwordConfirm": "Confirm Password",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "loginBtn": "Login",
+    "registerBtn": "Sign Up",
+    "errors": {
+      "loginFailed": "Login failed.",
+      "registerFailed": "Registration failed."
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "myInfo": "My Info",
+    "changeName": "Change Name",
+    "newNamePlaceholder": "New name (1–50 characters)",
+    "saveNameBtn": "Save Name",
+    "changePassword": "Change Password",
+    "currentPasswordPlaceholder": "Current password",
+    "newPasswordPlaceholder": "New password (min 8 chars, letters + numbers)",
+    "confirmNewPasswordPlaceholder": "Confirm new password",
+    "changePasswordBtn": "Change Password",
+    "theme": "Theme",
+    "themeLight": "☀️ Light",
+    "themeDark": "🌙 Dark",
+    "deleteAccount": "Delete Account",
+    "deleteAccountWarning": "All tasks and categories will be permanently deleted.",
+    "deleteAccountBtn": "Delete Account",
+    "saved": "Changes saved.",
+    "errors": {
+      "nameLength": "Name must be between 1 and 50 characters",
+      "currentPasswordRequired": "Please enter your current password",
+      "passwordFormat": "Must be at least 8 characters with letters and numbers",
+      "passwordMismatch": "Passwords do not match",
+      "currentPasswordWrong": "Current password is incorrect",
+      "generic": "An error occurred."
+    }
+  },
+  "category": {
+    "title": "Categories",
+    "all": "All",
+    "newNamePlaceholder": "New category name",
+    "addBtn": "+Add",
+    "deleteLabel": "Delete {{name}}",
+    "addCategory": "Add Category",
+    "closeCategory": "Close Add Category"
+  },
+  "todo": {
+    "empty": "No tasks",
+    "emptyDescription": "No tasks match the current filters.",
+    "addBtn": "Add Task",
+    "registerTitle": "Add Task",
+    "editTitle": "Edit Task",
+    "titlePlaceholder": "Enter title *",
+    "descriptionPlaceholder": "Enter description",
+    "startDate": "Start Date",
+    "dueDate": "Due Date",
+    "categoryPlaceholder": "Select category (default)",
+    "saveBtn": "Save",
+    "cancelBtn": "Cancel",
+    "deleteBtn": "Delete",
+    "closeBtn": "Close",
+    "required": "*",
+    "descriptionCounter": "{{count}} / 1000",
+    "dueDateUntil": "~{{date}}",
+    "status": {
+      "NOT_STARTED": "Not Started",
+      "IN_PROGRESS": "In Progress",
+      "DONE": "Done"
+    },
+    "errors": {
+      "titleRequired": "Please enter a title",
+      "titleTooLong": "Title must be 100 characters or fewer",
+      "startDateRequired": "Please enter a start date",
+      "dueDateRequired": "Please enter a due date",
+      "dateRange": "Due date must be on or after the start date",
+      "saveFailed": "Save failed. Please try again."
+    }
+  },
+  "filter": {
+    "all": "All",
+    "notStarted": "Not Started",
+    "inProgress": "In Progress",
+    "done": "Done",
+    "overdue": "Overdue"
+  },
+  "view": {
+    "list": "List View",
+    "calendar": "Calendar View",
+    "month": "Month",
+    "week": "Week"
+  },
+  "calendar": {
+    "today": "Today",
+    "previous": "‹",
+    "next": "›",
+    "month": "Month",
+    "agenda": "Agenda",
+    "date": "Date",
+    "time": "Time",
+    "event": "Task",
+    "noEvents": "No tasks in this period."
+  },
+  "confirm": {
+    "deleteAccount": {
+      "title": "Are you sure you want to delete your account?",
+      "message": "All tasks and categories will be permanently deleted.",
+      "confirmLabel": "Confirm Delete"
+    },
+    "cancelBtn": "Cancel",
+    "confirmBtn": "Confirm"
+  },
+  "lang": {
+    "ko": "한국어",
+    "en": "English"
+  }
+}

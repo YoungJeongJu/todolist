@@ -42,6 +42,7 @@
 | **다국어** | i18next + react-i18next |
 | **스타일링** | (프로젝트 결정) |
 | **HTTP 클라이언트** | axios 또는 fetch API |
+| **캘린더** | react-big-calendar + date-fns |
 
 ### 백엔드 서버 정보
 
@@ -1874,6 +1875,70 @@ const client = axios.create({
 
 ---
 
+---
+
+## 10. 캘린더 뷰 구현 가이드
+
+### 개요
+
+메인 화면에서 목록 뷰와 캘린더 뷰를 전환할 수 있습니다. 캘린더 뷰는 월(Month) 보기와 주(Week) 보기를 지원합니다.
+
+### 추가 패키지
+
+```
+react-big-calendar   — 월 캘린더 UI
+date-fns             — 날짜 파싱·포매팅 (react-big-calendar localizer)
+@types/react-big-calendar — 타입 정의
+```
+
+### 컴포넌트 구조
+
+```
+src/components/calendar/
+├── CalendarView.tsx   — 월 보기 (react-big-calendar 래퍼)
+└── WeekView.tsx       — 주 보기 (7일 그리드, 커스텀 구현)
+```
+
+### 날짜 파싱 주의사항
+
+`new Date("2026-05-30")` 은 UTC 자정으로 파싱되어 로컬 타임존에 따라 날짜가 하루 밀릴 수 있습니다. 반드시 로컬 자정으로 파싱하세요:
+
+```typescript
+function parseLocalDate(dateStr: string): Date {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  return new Date(y, m - 1, d); // 로컬 자정
+}
+```
+
+### 이벤트 색상
+
+| 상태 | 색상 | 헥스 |
+|------|------|------|
+| 미시작 (NOT_STARTED) | 회색 | `#70757a` |
+| 진행 중 (IN_PROGRESS) | 오렌지 | `#f9ab00` |
+| 완료 (DONE) | 초록 | `#1e8e3e` |
+| 기한 초과 (isOverdue=true) | 빨간색 | `#d93025` |
+
+### 뷰 전환 상태 관리
+
+월/주 뷰 상태는 `MainPage`에서 관리하고 `CalendarView`에 prop으로 전달합니다. 목록/캘린더 뷰 상태도 동일하게 `MainPage`에서 관리합니다:
+
+```typescript
+// MainPage.tsx
+const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
+const [calView, setCalView] = useState<'month' | 'week'>('month');
+```
+
+### 주 보기 구현 방식
+
+react-big-calendar의 기본 주 보기는 시간 그리드(time slots)를 표시하므로 날짜 기반 할 일 앱에 적합하지 않습니다. 대신 `WeekView` 컴포넌트를 별도로 구현합니다:
+
+- 7열 CSS 그리드 (일~토)
+- 각 열에 해당 날짜에 걸친 할 일(startDate <= day <= dueDate) 표시
+- 이전/다음 주 네비게이션 및 오늘 버튼 포함
+
+---
+
 ## 참고 문서
 
 - `1-domain-definition.md` — 도메인 정의, 비즈니스 규칙
@@ -1886,4 +1951,4 @@ const client = axios.create({
 
 ---
 
-**이 문서는 정기적으로 업데이트됩니다. 최종 수정일: 2026-05-28**
+**이 문서는 정기적으로 업데이트됩니다. 최종 수정일: 2026-05-29**
