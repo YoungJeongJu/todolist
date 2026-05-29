@@ -84,6 +84,10 @@ export async function updateMe(requesterId, { name, currentPassword, newPassword
   return { user: updated };
 }
 
+export async function getMe(requesterId) {
+  return userRepo.findUserById(requesterId);
+}
+
 export async function deleteMe(requesterId) {
   await userRepo.deleteUser(requesterId);
 }

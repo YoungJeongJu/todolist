@@ -16,6 +16,13 @@ export async function login(req, res, next) {
   } catch (err) { next(err); }
 }
 
+export async function getMe(req, res, next) {
+  try {
+    const user = await authService.getMe(req.user.id);
+    res.status(200).json(user);
+  } catch (err) { next(err); }
+}
+
 export async function updateMe(req, res, next) {
   try {
     const result = await authService.updateMe(req.user.id, req.body);
