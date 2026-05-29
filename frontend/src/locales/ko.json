@@ -1,7 +1,7 @@
 {
   "app": { "title": "TodoList", "subtitle": "개인 할 일 관리 서비스" },
   "auth": {
-    "login": "로그인",
+    "login": "@@로그인@@",
     "logout": "로그아웃",
     "register": "회원가입",
     "email": "이메일",
